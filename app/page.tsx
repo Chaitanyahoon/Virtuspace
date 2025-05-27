@@ -263,7 +263,7 @@ export default function HomePage() {
             </div>
           </div>
           <div className="border-t border-purple-500/20 mt-8 pt-8 text-center">
-            <p className="text-purple-300">&copy; 2024 VirtuSpace. Crafted with ❤️ for creators worldwide.</p>
+            <p className="text-purple-300">&copy; 2024 VirtuSpace. Crafted by Chaitanyahoon for creators worldwide.</p>
           </div>
         </div>
       </footer>

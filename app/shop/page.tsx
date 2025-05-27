@@ -69,7 +69,7 @@ export default function ShopPage() {
             <div className="mt-12 space-y-4">
               <div className="flex items-center justify-center space-x-2 text-gray-500">
                 <Clock className="h-5 w-5" />
-                <span>Expected Launch: Q2 2024</span>
+                <span>Expected Launch: Q2 2025</span>
               </div>
 
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
