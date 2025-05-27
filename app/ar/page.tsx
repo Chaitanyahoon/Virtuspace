@@ -5,7 +5,7 @@ import { Canvas } from "@react-three/fiber"
 import { Environment, Html } from "@react-three/drei"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
-import { ArrowLeft, Camera, Sparkles, Crown, Settings } from "lucide-react"
+import { ArrowLeft, Camera, Sparkles, Crown, Settings, AlertTriangle } from "lucide-react"
 import Link from "next/link"
 import ARScene from "@/components/ar-scene"
 import ModelLibrary from "@/components/model-library"
@@ -23,6 +23,7 @@ export default function ARPage() {
   const [showCollaboration, setShowCollaboration] = useState(false)
   const [cameraStream, setCameraStream] = useState<MediaStream | null>(null)
   const [isARActive, setIsARActive] = useState(false)
+  const [cameraError, setCameraError] = useState<string | null>(null)
   const [isFirstTime] = useState(false)
   const [modelTransform, setModelTransform] = useState({
     position: [0, 0, -2] as [number, number, number],
@@ -37,6 +38,12 @@ export default function ARPage() {
   // Use ref to prevent camera flickering
   const videoRef = useRef<HTMLVideoElement>(null)
   const streamRef = useRef<MediaStream | null>(null)
+  const [isSecureContext, setIsSecureContext] = useState(true)
+
+  // Check if we're in a secure context (HTTPS)
+  useEffect(() => {
+    setIsSecureContext(window.isSecureContext)
+  }, [])
 
   // Memoized handlers to prevent infinite re-renders
   const handleModelSelect = useCallback((modelType: string, variant?: string) => {
@@ -121,44 +128,95 @@ export default function ARPage() {
   }, [])
 
   const startCamera = useCallback(async () => {
+    setCameraError(null)
+
+    // Check if we're in a secure context
+    if (!window.isSecureContext) {
+      setCameraError("HTTPS is required for camera access. Please use a secure connection.")
+      return
+    }
+
+    // Check if getUserMedia is available
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+      setCameraError("Camera API is not supported in this browser.")
+      return
+    }
+
     try {
       // Stop existing stream if any
       if (streamRef.current) {
         streamRef.current.getTracks().forEach((track) => track.stop())
       }
 
-      const stream = await navigator.mediaDevices.getUserMedia({
-        video: {
-          facingMode: "environment",
-          width: { ideal: 1920 },
-          height: { ideal: 1080 },
-        },
-      })
+      // Request camera with fallback options
+      let stream: MediaStream | null = null
 
-      streamRef.current = stream
-      setCameraStream(stream)
-      setIsARActive(true)
+      try {
+        // Try with ideal settings first
+        stream = await navigator.mediaDevices.getUserMedia({
+          video: {
+            facingMode: "environment",
+            width: { ideal: 1920, min: 640 },
+            height: { ideal: 1080, min: 480 },
+          },
+        })
+      } catch (error) {
+        console.warn("High-quality camera failed, trying basic settings:", error)
 
-      // Set video source directly to prevent flickering
-      if (videoRef.current) {
-        videoRef.current.srcObject = stream
+        // Fallback to basic settings
+        try {
+          stream = await navigator.mediaDevices.getUserMedia({
+            video: {
+              facingMode: "environment",
+            },
+          })
+        } catch (fallbackError) {
+          console.warn("Environment camera failed, trying any camera:", fallbackError)
+
+          // Final fallback - any camera
+          stream = await navigator.mediaDevices.getUserMedia({
+            video: true,
+          })
+        }
       }
-    } catch (error) {
+
+      if (stream) {
+        streamRef.current = stream
+        setCameraStream(stream)
+        setIsARActive(true)
+        setCameraError(null)
+
+        // Set video source directly to prevent flickering
+        if (videoRef.current) {
+          videoRef.current.srcObject = stream
+        }
+      }
+    } catch (error: any) {
       console.error("Error accessing camera:", error)
-      alert("Camera access is required for AR functionality. Please allow camera permissions and try again.")
+
+      let errorMessage = "Unable to access camera. "
+
+      if (error.name === "NotAllowedError") {
+        errorMessage += "Please allow camera permissions and try again."
+      } else if (error.name === "NotFoundError") {
+        errorMessage += "No camera found on this device."
+      } else if (error.name === "NotSupportedError") {
+        errorMessage += "Camera is not supported in this browser."
+      } else if (error.name === "NotReadableError") {
+        errorMessage += "Camera is already in use by another application."
+      } else {
+        errorMessage += "Please check your camera settings and try again."
+      }
+
+      setCameraError(errorMessage)
     }
   }, [])
 
-  // Initialize camera on mount
+  // Initialize camera on mount with user interaction
   useEffect(() => {
-    startCamera()
-
-    return () => {
-      if (streamRef.current) {
-        streamRef.current.getTracks().forEach((track) => track.stop())
-      }
-    }
-  }, [startCamera])
+    // Don't auto-start camera, wait for user interaction
+    // This helps with mobile browsers that require user gesture
+  }, [])
 
   // Handle URL parameters separately
   useEffect(() => {
@@ -239,8 +297,12 @@ export default function ARPage() {
             </Button>
           </Link>
           <div className="flex items-center space-x-3 bg-black/20 backdrop-blur-xl rounded-full px-4 py-2 border border-white/20 shadow-2xl">
-            <div className="bg-red-500 w-3 h-3 rounded-full animate-pulse shadow-lg shadow-red-500/50"></div>
-            <span className="text-white text-sm font-medium">AR Studio Active</span>
+            <div
+              className={`w-3 h-3 rounded-full shadow-lg ${isARActive ? "bg-red-500 animate-pulse shadow-red-500/50" : "bg-yellow-500 shadow-yellow-500/50"}`}
+            ></div>
+            <span className="text-white text-sm font-medium">
+              {isARActive ? "AR Studio Active" : "Initializing..."}
+            </span>
             <Crown className="h-4 w-4 text-yellow-400" />
           </div>
           <div className="flex items-center space-x-2">
@@ -340,7 +402,7 @@ export default function ARPage() {
       )}
 
       {/* Welcome Screen */}
-      {!selectedModel && !showLibrary && (
+      {!selectedModel && !showLibrary && isARActive && (
         <div className="absolute inset-0 z-30 flex items-center justify-center pointer-events-auto">
           <Card className="bg-black/20 backdrop-blur-xl border border-white/20 shadow-2xl max-w-md mx-4">
             <CardContent className="p-8 text-center">
@@ -370,7 +432,7 @@ export default function ARPage() {
         </div>
       )}
 
-      {/* Camera Access Screen */}
+      {/* Enhanced Camera Access Screen */}
       {!cameraStream && !isARActive && (
         <div className="absolute inset-0 z-50 bg-gradient-to-br from-slate-900 to-purple-900 flex items-center justify-center">
           <Card className="max-w-md mx-4 bg-black/20 backdrop-blur-xl border border-white/20 shadow-2xl">
@@ -380,6 +442,22 @@ export default function ARPage() {
                 <Crown className="h-6 w-6 text-yellow-400 absolute -top-2 -right-2" />
               </div>
               <h3 className="text-2xl font-bold text-white mb-3">Premium AR Access Required</h3>
+
+              {!isSecureContext && (
+                <div className="mb-4 p-3 bg-red-500/20 border border-red-500/30 rounded-lg">
+                  <div className="flex items-center space-x-2 text-red-300">
+                    <AlertTriangle className="h-4 w-4" />
+                    <span className="text-sm">HTTPS required for camera access</span>
+                  </div>
+                </div>
+              )}
+
+              {cameraError && (
+                <div className="mb-4 p-3 bg-red-500/20 border border-red-500/30 rounded-lg">
+                  <p className="text-red-300 text-sm">{cameraError}</p>
+                </div>
+              )}
+
               <p className="text-white/80 mb-6 leading-relaxed">
                 VirtuSpace needs camera access to provide our premium AR experience with photorealistic models, advanced
                 lighting, and voice commands.
@@ -387,7 +465,8 @@ export default function ARPage() {
               <div className="space-y-4">
                 <Button
                   onClick={startCamera}
-                  className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-semibold py-3"
+                  disabled={!isSecureContext}
+                  className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-semibold py-3 disabled:opacity-50"
                 >
                   <Camera className="h-4 w-4 mr-2" />
                   Enable Premium AR
