@@ -104,15 +104,15 @@ export default function ARControls({
   return (
     <>
       {/* Floating Controls - Compact and Elegant */}
-      <div className="fixed bottom-6 left-1/2 transform -translate-x-1/2 z-40">
+      <div className="fixed bottom-4 sm:bottom-6 left-1/2 transform -translate-x-1/2 z-40">
         <Card className="bg-black/20 backdrop-blur-xl border border-white/20 shadow-2xl">
-          <CardContent className="p-3">
-            <div className="flex items-center space-x-2">
+          <CardContent className="p-2 sm:p-3">
+            <div className="flex items-center space-x-1 sm:space-x-2">
               <Button
                 variant="ghost"
                 size="sm"
                 onClick={onShowLibrary}
-                className="text-white hover:bg-white/20 h-10 w-10 p-0"
+                className="text-white hover:bg-white/20 h-12 w-12 sm:h-10 sm:w-10 p-0"
               >
                 <Grid3X3 className="h-5 w-5" />
               </Button>
@@ -121,7 +121,7 @@ export default function ARControls({
                 variant="ghost"
                 size="sm"
                 onClick={() => setShowMaterialPanel(!showMaterialPanel)}
-                className="text-white hover:bg-white/20 h-10 w-10 p-0"
+                className="text-white hover:bg-white/20 h-12 w-12 sm:h-10 sm:w-10 p-0"
               >
                 <Palette className="h-5 w-5" />
               </Button>
@@ -130,7 +130,7 @@ export default function ARControls({
                 variant="ghost"
                 size="sm"
                 onClick={takeScreenshot}
-                className="text-white hover:bg-white/20 h-10 w-10 p-0"
+                className="text-white hover:bg-white/20 h-12 w-12 sm:h-10 sm:w-10 p-0"
               >
                 <Camera className="h-5 w-5" />
               </Button>
@@ -139,7 +139,7 @@ export default function ARControls({
                 variant="ghost"
                 size="sm"
                 onClick={resetTransform}
-                className="text-white hover:bg-white/20 h-10 w-10 p-0"
+                className="text-white hover:bg-white/20 h-12 w-12 sm:h-10 sm:w-10 p-0"
               >
                 <Home className="h-5 w-5" />
               </Button>
@@ -148,7 +148,7 @@ export default function ARControls({
                 variant="ghost"
                 size="sm"
                 onClick={() => window.location.reload()}
-                className="text-white hover:bg-red-500/20 h-10 w-10 p-0"
+                className="text-white hover:bg-red-500/20 h-12 w-12 sm:h-10 sm:w-10 p-0"
               >
                 <Trash2 className="h-5 w-5" />
               </Button>
@@ -159,18 +159,25 @@ export default function ARControls({
 
       {/* Model Info Panel - Top Right */}
       {selectedModel && (
-        <div className="fixed top-20 right-6 z-40">
-          <Card className="bg-black/20 backdrop-blur-xl border border-white/20 shadow-2xl max-w-xs">
-            <CardContent className="p-4">
+        <div className="fixed top-14 sm:top-20 right-2 sm:right-6 z-40">
+          <Card className="bg-black/20 backdrop-blur-xl border border-white/20 shadow-2xl max-w-[280px] sm:max-w-xs">
+            <CardContent className="p-3 sm:p-4">
               <div className="flex items-start justify-between mb-3">
                 <div>
                   <h3 className="text-white font-semibold text-sm mb-1">{getModelName(selectedModel)}</h3>
                   <p className="text-white/70 text-xs mb-2">
-                    • Drag to move
-                    <br />• Pinch/scroll to scale
-                    <br />• Two fingers to rotate
-                    <br />• Double tap for 90° turn
-                    <br />• Hold Shift + drag to rotate (desktop)
+                    <span className="hidden sm:inline">
+                      • Drag to move
+                      <br />• Pinch/scroll to scale
+                      <br />• Two fingers to rotate
+                      <br />• Double tap for 90° turn
+                      <br />• Hold Shift + drag to rotate (desktop)
+                    </span>
+                    <span className="sm:hidden">
+                      • Drag to move
+                      <br />• Pinch to scale
+                      <br />• Two fingers to rotate
+                    </span>
                   </p>
                 </div>
                 <Badge
@@ -217,11 +224,11 @@ export default function ARControls({
 
       {/* Material Panel */}
       {showMaterialPanel && (
-        <div className="fixed bottom-24 left-1/2 transform -translate-x-1/2 z-50">
-          <Card className="bg-black/20 backdrop-blur-xl border border-white/20 shadow-2xl max-w-md">
-            <CardContent className="p-4">
+        <div className="fixed bottom-20 sm:bottom-24 left-1/2 transform -translate-x-1/2 z-50">
+          <Card className="bg-black/20 backdrop-blur-xl border border-white/20 shadow-2xl max-w-sm sm:max-w-md mx-3">
+            <CardContent className="p-3 sm:p-4">
               <div className="flex items-center justify-between mb-4">
-                <h3 className="text-white font-semibold flex items-center">
+                <h3 className="text-white font-semibold flex items-center text-sm sm:text-base">
                   <Sparkles className="h-4 w-4 mr-2" />
                   Premium Materials
                 </h3>
@@ -235,7 +242,7 @@ export default function ARControls({
                 </Button>
               </div>
 
-              <div className="grid grid-cols-4 gap-2 max-h-48 overflow-y-auto">
+              <div className="grid grid-cols-3 sm:grid-cols-4 gap-2 max-h-40 sm:max-h-48 overflow-y-auto">
                 {materials.map((material) => (
                   <Button
                     key={material.id}

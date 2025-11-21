@@ -215,26 +215,26 @@ export default function ARPage() {
       )}
 
       {/* Header */}
-      <div className="absolute top-0 left-0 right-0 z-50 p-6">
-        <div className="flex items-center justify-between">
+      <div className="absolute top-0 left-0 right-0 z-50 p-3 sm:p-6">
+        <div className="flex items-center justify-between flex-wrap gap-2">
           <Link href="/">
             <Button
               variant="ghost"
               size="sm"
               className="text-white hover:bg-white/10 bg-black/20 backdrop-blur-xl border border-blue-500/30 shadow-2xl"
             >
-              <ArrowLeft className="h-4 w-4 mr-2" />
-              Back
+              <ArrowLeft className="h-4 w-4 sm:mr-2" />
+              <span className="hidden sm:inline">Back</span>
             </Button>
           </Link>
-          <div className="flex items-center space-x-3 bg-black/20 backdrop-blur-xl rounded-full px-4 py-2 border border-blue-500/30 shadow-2xl">
+          <div className="flex items-center space-x-2 sm:space-x-3 bg-black/20 backdrop-blur-xl rounded-full px-3 sm:px-4 py-2 border border-blue-500/30 shadow-2xl">
             <div
               className={`w-3 h-3 rounded-full shadow-lg ${isARActive ? "bg-red-500 animate-pulse shadow-red-500/50" : "bg-sky-500 shadow-sky-500/50"}`}
             ></div>
-            <span className="text-white text-sm font-medium">
-              {isARActive ? (useGridView ? "Grid View Mode" : "AR Studio Active") : "Initializing..."}
+            <span className="text-white text-xs sm:text-sm font-medium">
+              {isARActive ? (useGridView ? "Grid View" : "AR Active") : "Initializing..."}
             </span>
-            <Crown className="h-4 w-4 text-sky-400" />
+            <Crown className="h-3 w-3 sm:h-4 sm:w-4 text-sky-400" />
           </div>
 
         </div>
@@ -300,15 +300,15 @@ export default function ARPage() {
       {/* Welcome Screen */}
       {!selectedModel && !showLibrary && isARActive && (
         <div className="absolute inset-0 z-30 flex items-center justify-center pointer-events-auto">
-          <Card className="bg-black/20 backdrop-blur-xl border border-blue-500/30 shadow-2xl max-w-md mx-4">
-            <CardContent className="p-8 text-center">
+          <Card className="bg-black/20 backdrop-blur-xl border border-blue-500/30 shadow-2xl max-w-md mx-3 sm:mx-4">
+            <CardContent className="p-6 sm:p-8 text-center">
               <div className="relative mb-6">
-                <Camera className="h-16 w-16 text-sky-400 mx-auto" />
-                <Sparkles className="h-6 w-6 text-blue-400 absolute -top-2 -right-2 animate-pulse" />
+                <Camera className="h-12 w-12 sm:h-16 sm:w-16 text-sky-400 mx-auto" />
+                <Sparkles className="h-5 w-5 sm:h-6 sm:w-6 text-blue-400 absolute -top-2 -right-2 animate-pulse" />
               </div>
-              <h3 className="text-2xl font-bold text-white mb-3">Welcome to VirtuSpace AR</h3>
+              <h3 className="text-xl sm:text-2xl font-bold text-white mb-3">Welcome to VirtuSpace AR</h3>
 
-              <p className="text-white/80 mb-6 leading-relaxed">
+              <p className="text-sm sm:text-base text-white/80 mb-6 leading-relaxed">
                 Point your camera at a flat surface and select from our premium collection of photorealistic 3D models.
                 Use touch gestures to interact!
               </p>
@@ -328,13 +328,13 @@ export default function ARPage() {
       {/* Enhanced Camera Access Screen */}
       {!cameraStream && !isARActive && (
         <div className="absolute inset-0 z-50 bg-gradient-to-br from-slate-950 to-blue-950 flex items-center justify-center">
-          <Card className="max-w-md mx-4 bg-black/20 backdrop-blur-xl border border-blue-500/30 shadow-2xl">
-            <CardContent className="p-8 text-center">
+          <Card className="max-w-md mx-3 sm:mx-4 bg-black/20 backdrop-blur-xl border border-blue-500/30 shadow-2xl">
+            <CardContent className="p-6 sm:p-8 text-center">
               <div className="relative mb-6">
-                <Camera className="h-16 w-16 text-sky-400 mx-auto" />
-                <Crown className="h-6 w-6 text-blue-400 absolute -top-2 -right-2" />
+                <Camera className="h-12 w-12 sm:h-16 sm:w-16 text-sky-400 mx-auto" />
+                <Crown className="h-5 w-5 sm:h-6 sm:w-6 text-blue-400 absolute -top-2 -right-2" />
               </div>
-              <h3 className="text-2xl font-bold text-white mb-3">Premium AR Access Required</h3>
+              <h3 className="text-xl sm:text-2xl font-bold text-white mb-3">Premium AR Access Required</h3>
 
               {!isSecureContext && (
                 <div className="mb-4 p-3 bg-red-500/20 border border-red-500/30 rounded-lg">
@@ -351,11 +351,11 @@ export default function ARPage() {
                 </div>
               )}
 
-              <p className="text-white/80 mb-6 leading-relaxed">
+              <p className="text-sm sm:text-base text-white/80 mb-6 leading-relaxed">
                 VirtuSpace needs camera access to provide our premium AR experience with photorealistic models, advanced
                 lighting, and voice commands.
               </p>
-              <div className="space-y-4">
+              <div className="space-y-3 sm:space-y-4">
                 <Button
                   onClick={startCamera}
                   disabled={!isSecureContext}
