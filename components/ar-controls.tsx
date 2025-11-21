@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Grid3X3, Trash2, Camera, Palette, Home, Settings, Sparkles, Crown, Share2, Download, X } from "lucide-react"
+import { Grid3X3, Trash2, Camera, Palette, Home, Sparkles, Crown, X } from "lucide-react"
 import { useState } from "react"
 
 interface ARControlsProps {
@@ -257,32 +257,7 @@ export default function ARControls({
         </div>
       )}
 
-      {/* Quick Actions - Top Left */}
-      <div className="fixed top-20 left-6 z-40">
-        <div className="flex flex-col space-y-2">
-          <Button
-            variant="ghost"
-            size="sm"
-            className="bg-black/20 backdrop-blur-xl border border-white/20 text-white hover:bg-white/20 h-10 w-10 p-0"
-          >
-            <Share2 className="h-5 w-5" />
-          </Button>
-          <Button
-            variant="ghost"
-            size="sm"
-            className="bg-black/20 backdrop-blur-xl border border-white/20 text-white hover:bg-white/20 h-10 w-10 p-0"
-          >
-            <Download className="h-5 w-5" />
-          </Button>
-          <Button
-            variant="ghost"
-            size="sm"
-            className="bg-black/20 backdrop-blur-xl border border-white/20 text-white hover:bg-white/20 h-10 w-10 p-0"
-          >
-            <Settings className="h-5 w-5" />
-          </Button>
-        </div>
-      </div>
+
     </>
   )
 }

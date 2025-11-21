@@ -13,6 +13,7 @@ interface ARSceneProps {
     scale: [number, number, number]
   }
   onTransformChange: (transform: any) => void
+  useGridView?: boolean
 }
 
 // Diverse model configurations with unique furniture pieces
@@ -174,7 +175,7 @@ const modelConfigs = {
   },
 }
 
-export default function ARScene({ selectedModel, transform, onTransformChange }: ARSceneProps) {
+export default function ARScene({ selectedModel, transform, onTransformChange, useGridView = false }: ARSceneProps) {
   const meshRef = useRef<THREE.Group>(null)
   const [isDragging, setIsDragging] = useState(false)
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 })
@@ -686,7 +687,7 @@ export default function ARScene({ selectedModel, transform, onTransformChange }:
       <gridHelper
         args={[15, 15, "#ffffff", "#ffffff"]}
         position={[0, -0.49, 0]}
-        material-opacity={0.1}
+        material-opacity={useGridView ? 0.3 : 0.1}
         material-transparent={true}
       />
 

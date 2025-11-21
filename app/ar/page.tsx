@@ -5,25 +5,22 @@ import { Canvas } from "@react-three/fiber"
 import { Environment, Html } from "@react-three/drei"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
-import { ArrowLeft, Camera, Sparkles, Crown, Settings, AlertTriangle } from "lucide-react"
+import { ArrowLeft, Camera, Sparkles, Crown, AlertTriangle, Grid3X3 } from "lucide-react"
 import Link from "next/link"
 import ARScene from "@/components/ar-scene"
 import ModelLibrary from "@/components/model-library"
 import ARControls from "@/components/ar-controls"
 import SurfaceDetector from "@/components/surface-detector"
-import AdvancedModelEditor from "@/components/advanced-model-editor"
-import CollaborationSystem from "@/components/collaboration-system"
-import TutorialSystem from "@/components/tutorial-system"
+
 
 export default function ARPage() {
   const [selectedModel, setSelectedModel] = useState<string | null>(null)
   const [showLibrary, setShowLibrary] = useState(true)
-  const [showAdvancedEditor, setShowAdvancedEditor] = useState(false)
-  const [showCollaboration, setShowCollaboration] = useState(false)
   const [cameraStream, setCameraStream] = useState<MediaStream | null>(null)
   const [isARActive, setIsARActive] = useState(false)
   const [cameraError, setCameraError] = useState<string | null>(null)
-  const [isFirstTime] = useState(false)
+  const [useGridView, setUseGridView] = useState(false)
+
   const [modelTransform, setModelTransform] = useState({
     position: [0, 0, -2] as [number, number, number],
     rotation: [0, 0, 0] as [number, number, number],
@@ -59,13 +56,7 @@ export default function ARPage() {
   }, [])
 
 
-  const handleInviteUser = useCallback((email: string) => {
-    console.log("Inviting user:", email)
-  }, [])
 
-  const handleUpdatePermissions = useCallback((userId: string, role: string) => {
-    console.log("Updating permissions:", userId, role)
-  }, [])
 
   const startCamera = useCallback(async () => {
     setCameraError(null)
@@ -184,9 +175,6 @@ export default function ARPage() {
       setShowLibrary(false)
     }
 
-    if (collaborateParam) {
-      setShowCollaboration(true)
-    }
   }, [])
 
   // Auto-place model on detected surface
@@ -205,8 +193,11 @@ export default function ARPage() {
 
   return (
     <div className="h-screen relative overflow-hidden bg-black">
-      {/* Tutorial System */}
-      <TutorialSystem isFirstTime={isFirstTime} currentContext="ar" onComplete={() => {}} onSkip={() => {}} />
+      {/* Camera Background - Fixed to prevent flickering */}
+      {/* Grid View Background */}
+      {useGridView && !cameraStream && (
+        <div className="absolute inset-0 bg-gradient-to-br from-slate-950 via-slate-900 to-blue-950" />
+      )}
 
       {/* Camera Background - Fixed to prevent flickering */}
       {cameraStream && (
@@ -241,31 +232,11 @@ export default function ARPage() {
               className={`w-3 h-3 rounded-full shadow-lg ${isARActive ? "bg-red-500 animate-pulse shadow-red-500/50" : "bg-sky-500 shadow-sky-500/50"}`}
             ></div>
             <span className="text-white text-sm font-medium">
-              {isARActive ? "AR Studio Active" : "Initializing..."}
+              {isARActive ? (useGridView ? "Grid View Mode" : "AR Studio Active") : "Initializing..."}
             </span>
             <Crown className="h-4 w-4 text-sky-400" />
           </div>
-          <div className="flex items-center space-x-2">
-            {selectedModel && (
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => setShowAdvancedEditor(true)}
-                className="text-white hover:bg-white/10 bg-black/20 backdrop-blur-xl border border-blue-500/30 shadow-2xl"
-              >
-                <Settings className="h-4 w-4 mr-2" />
-                Advanced
-              </Button>
-            )}
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => setShowCollaboration(!showCollaboration)}
-              className="text-white hover:bg-white/10 bg-black/20 backdrop-blur-xl border border-blue-500/30 shadow-2xl"
-            >
-              Collaborate
-            </Button>
-          </div>
+
         </div>
       </div>
 
@@ -305,6 +276,7 @@ export default function ARPage() {
               selectedModel={selectedModel}
               transform={modelTransform}
               onTransformChange={handleTransformChange}
+              useGridView={useGridView}
             />
           </Suspense>
         </Canvas>
@@ -313,25 +285,10 @@ export default function ARPage() {
       {/* Model Library */}
       {showLibrary && <ModelLibrary onModelSelect={handleModelSelect} onClose={() => setShowLibrary(false)} />}
 
-      {/* Advanced Model Editor */}
-      {showAdvancedEditor && selectedModel && (
-        <AdvancedModelEditor modelId={selectedModel} onClose={() => setShowAdvancedEditor(false)} />
-      )}
-
-      {/* Collaboration System */}
-      {showCollaboration && (
-        <CollaborationSystem
-          sessionId="session-123"
-          isHost={true}
-          onInviteUser={handleInviteUser}
-          onUpdatePermissions={handleUpdatePermissions}
-        />
-      )}
-
 
 
       {/* Controls */}
-      {selectedModel && !showLibrary && !showAdvancedEditor && (
+      {selectedModel && !showLibrary && (
         <ARControls
           onTransformChange={handleTransformChange}
           currentTransform={modelTransform}
@@ -407,6 +364,17 @@ export default function ARPage() {
                   <Camera className="h-4 w-4 mr-2" />
                   Enable Premium AR
                 </Button>
+                <Button
+                  onClick={() => {
+                    setUseGridView(true)
+                    setIsARActive(true)
+                    setShowLibrary(false)
+                  }}
+                  className="w-full bg-gradient-to-r from-purple-500 to-pink-600 hover:from-purple-600 hover:to-pink-700 text-white font-semibold py-3"
+                >
+                  <Grid3X3 className="h-4 w-4 mr-2" />
+                  Use 3D Grid View Instead
+                </Button>
                 <Link href="/">
                   <Button variant="outline" className="w-full border-blue-500/30 text-white hover:bg-white/10">
                     Return Home
@@ -418,8 +386,8 @@ export default function ARPage() {
         </div>
       )}
 
-      {/* Surface Detection Hint */}
-      {isARActive && selectedModel && !detectedSurface && (
+      {/* Surface Detection Hint - Only show in camera mode */}
+      {isARActive && selectedModel && !detectedSurface && !useGridView && (
         <div className="absolute top-32 left-1/2 transform -translate-x-1/2 z-30 pointer-events-none">
           <div className="bg-black/50 backdrop-blur-xl text-white px-6 py-3 rounded-full text-sm border border-blue-500/30 shadow-2xl">
             <div className="flex items-center space-x-2">
