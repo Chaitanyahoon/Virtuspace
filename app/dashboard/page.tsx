@@ -1,315 +1,194 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { CuboidIcon as Cube, Plus, Eye, Share2, Download, Trash2, Calendar, Heart, Upload, Search } from "lucide-react"
+import { ScrollArea } from "@/components/ui/scroll-area"
+import { Plus, ArrowRight, Clock, Eye, Heart, Trash2, Play, Sparkles, LayoutGrid, Image as ImageIcon } from "lucide-react"
 import Link from "next/link"
-import DashboardLayout from "@/components/dashboard-layout"
-import AnalyticsDashboard from "@/components/analytics-dashboard"
-import AIRecommendations from "@/components/ai-recommendations"
-import CloudSync from "@/components/cloud-sync"
-import TutorialSystem from "@/components/tutorial-system"
-
-const recentSessions = [
-  {
-    id: 1,
-    name: "Living Room Setup",
-    models: ["Sofa", "Coffee Table", "Lamp"],
-    createdAt: "2024-01-15",
-    thumbnail: "/placeholder.svg?height=200&width=300",
-    isPublic: true,
-    likes: 24,
-    views: 156,
-  },
-  {
-    id: 2,
-    name: "Office Design",
-    models: ["Desk", "Chair", "Plant"],
-    createdAt: "2024-01-14",
-    thumbnail: "/placeholder.svg?height=200&width=300",
-    isPublic: false,
-    likes: 0,
-    views: 12,
-  },
-  {
-    id: 3,
-    name: "Bedroom Makeover",
-    models: ["Bed", "Nightstand", "Dresser"],
-    createdAt: "2024-01-12",
-    thumbnail: "/placeholder.svg?height=200&width=300",
-    isPublic: true,
-    likes: 18,
-    views: 89,
-  },
-]
-
-const myModels = [
-  {
-    id: 1,
-    name: "Custom Bookshelf",
-    type: "Furniture",
-    uploadedAt: "2024-01-10",
-    size: "2.4 MB",
-    downloads: 45,
-    thumbnail: "/placeholder.svg?height=150&width=150",
-  },
-  {
-    id: 2,
-    name: "Modern Vase",
-    type: "Decoration",
-    uploadedAt: "2024-01-08",
-    size: "1.8 MB",
-    downloads: 23,
-    thumbnail: "/placeholder.svg?height=150&width=150",
-  },
-]
+import GlassLayout from "@/components/glass-layout"
+import { storage, type Session, type DashboardStats } from "@/lib/storage"
 
 export default function DashboardPage() {
-  const [activeTab, setActiveTab] = useState("overview")
-  const [showTutorial, setShowTutorial] = useState(false)
-  const [isFirstTime] = useState(false)
+  const [sessions, setSessions] = useState<Session[]>([])
+  const [stats, setStats] = useState<DashboardStats>({ totalViews: 0, totalLikes: 0, totalSessions: 0 })
+  const [isLoading, setIsLoading] = useState(true)
 
-  const handleRecommendationClick = (recommendation: any) => {
-    console.log("Recommendation clicked:", recommendation)
-    if (recommendation.type === "model") {
-      window.location.href = `/ar?model=${recommendation.id}`
-    } else if (recommendation.type === "scene") {
-      window.location.href = `/ar?scene=${recommendation.id}`
-    }
-  }
+  useEffect(() => {
+    // Simulate loading for smooth transition
+    const timer = setTimeout(() => {
+      setSessions(storage.getSessions())
+      setStats(storage.getStats())
+      setIsLoading(false)
+    }, 800)
 
-  const handleModelUpload = () => {
-    // Simulate model upload functionality
-    const input = document.createElement("input")
-    input.type = "file"
-    input.accept = ".glb,.gltf,.obj,.fbx"
-    input.onchange = (e) => {
-      const file = (e.target as HTMLInputElement).files?.[0]
-      if (file) {
-        alert(`Model "${file.name}" uploaded successfully! Processing...`)
-        // Here you would typically upload to your backend
-      }
-    }
-    input.click()
-  }
+    return () => clearTimeout(timer)
+  }, [])
 
-  const handleSessionDelete = (sessionId: number) => {
-    alert(`Session ${sessionId} deleted successfully!`)
-    // Here you would typically delete from your backend
-  }
-
-  const handleModelDelete = (modelId: number) => {
-    alert(`Model ${modelId} deleted successfully!`)
-    // Here you would typically delete from your backend
+  const handleDeleteSession = (id: number) => {
+    storage.deleteSession(id)
+    setSessions(storage.getSessions())
+    setStats(storage.getStats())
   }
 
   return (
-    <DashboardLayout>
+    <GlassLayout>
       <div className="space-y-8">
-        {/* Tutorial System */}
-        <TutorialSystem
-          isFirstTime={isFirstTime}
-          currentContext="dashboard"
-          onComplete={() => setShowTutorial(false)}
-          onSkip={() => setShowTutorial(false)}
-        />
-
-        {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between">
+        {/* Welcome Section */}
+        <div className="flex items-center justify-between animate-fade-in">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">Dashboard</h1>
-            <p className="text-gray-600 mt-2">Manage your AR sessions and 3D models</p>
+            <h1 className="text-4xl font-bold text-white mb-2">
+              Welcome back, <span className="text-gradient-cyan">Creator</span>
+            </h1>
+            <p className="text-blue-200">Ready to design your next masterpiece?</p>
           </div>
-          <div className="flex space-x-3 mt-4 md:mt-0">
-            <Link href="/ar" data-tutorial="ar-button">
-              <Button>
-                <Plus className="h-4 w-4 mr-2" />
-                New AR Session
-              </Button>
+          <Link href="/ar">
+            <Button size="lg" className="bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-600 hover:to-blue-700 text-white glow-cyan animate-glow-pulse border-0">
+              <Plus className="h-5 w-5 mr-2" />
+              New Project
+            </Button>
+          </Link>
+        </div>
+
+        {/* Bento Grid Layout */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          
+          {/* Hero Card - Start Creating */}
+          <Card className="md:col-span-2 glass-effect border-blue-500/20 relative overflow-hidden group hover-lift">
+            <div className="absolute inset-0 bg-gradient-to-br from-blue-600/20 via-sky-500/10 to-transparent opacity-50 group-hover:opacity-70 transition-opacity" />
+            <CardContent className="p-8 relative z-10 flex flex-col justify-center h-full min-h-[240px]">
+              <Badge className="w-fit mb-4 bg-blue-500/20 text-blue-200 border-blue-500/30 backdrop-blur-md">
+                <Sparkles className="h-3 w-3 mr-1 text-sky-400" />
+                AR Studio
+              </Badge>
+              <h2 className="text-3xl font-bold text-white mb-4">Bring your ideas to life in <span className="text-sky-400">Augmented Reality</span></h2>
+              <p className="text-blue-100/80 mb-8 max-w-md">
+                Visualize furniture, decor, and art in your real space with our advanced AR engine.
+              </p>
+              <div className="flex gap-4">
+                <Link href="/ar">
+                  <Button size="lg" className="bg-white text-blue-900 hover:bg-blue-50">
+                    <Play className="h-5 w-5 mr-2 fill-blue-900" />
+                    Launch Studio
+                  </Button>
+                </Link>
+                <Link href="/explore">
+                  <Button size="lg" variant="outline" className="border-white/20 text-white hover:bg-white/10">
+                    Explore Models
+                  </Button>
+                </Link>
+              </div>
+            </CardContent>
+            {/* Decorative Circle */}
+            <div className="absolute -right-20 -bottom-20 w-64 h-64 bg-sky-500/20 rounded-full blur-3xl group-hover:bg-sky-500/30 transition-colors" />
+          </Card>
+
+          {/* Stats Column */}
+          <div className="space-y-6">
+            {/* Total Views */}
+            <Card className="glass-effect border-blue-500/20 hover-lift">
+              <CardContent className="p-6 flex items-center justify-between">
+                <div>
+                  <p className="text-sm text-blue-300 font-medium mb-1">Total Views</p>
+                  <h3 className="text-3xl font-bold text-white">{isLoading ? "..." : stats.totalViews}</h3>
+                </div>
+                <div className="h-12 w-12 rounded-xl bg-blue-500/20 flex items-center justify-center">
+                  <Eye className="h-6 w-6 text-sky-400" />
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Total Likes */}
+            <Card className="glass-effect border-blue-500/20 hover-lift">
+              <CardContent className="p-6 flex items-center justify-between">
+                <div>
+                  <p className="text-sm text-blue-300 font-medium mb-1">Total Likes</p>
+                  <h3 className="text-3xl font-bold text-white">{isLoading ? "..." : stats.totalLikes}</h3>
+                </div>
+                <div className="h-12 w-12 rounded-xl bg-pink-500/20 flex items-center justify-center">
+                  <Heart className="h-6 w-6 text-pink-400" />
+                </div>
+              </CardContent>
+            </Card>
+            
+             {/* Browse Gallery Card */}
+             <Link href="/gallery">
+              <Card className="glass-effect border-blue-500/20 hover-lift cursor-pointer group h-[100px] mt-6">
+                <CardContent className="p-6 flex items-center justify-between h-full">
+                  <div>
+                    <h3 className="text-lg font-bold text-white group-hover:text-sky-300 transition-colors">Browse Gallery</h3>
+                    <p className="text-xs text-blue-300">Discover community designs</p>
+                  </div>
+                  <div className="h-10 w-10 rounded-full bg-blue-500/20 flex items-center justify-center group-hover:bg-blue-500/30 transition-colors">
+                    <ImageIcon className="h-5 w-5 text-sky-400" />
+                  </div>
+                </CardContent>
+              </Card>
             </Link>
-            <Button variant="outline" onClick={handleModelUpload}>
-              <Upload className="h-4 w-4 mr-2" />
-              Upload Model
-            </Button>
-            <Button variant="outline" onClick={() => setShowTutorial(true)}>
-              Help
-            </Button>
           </div>
         </div>
 
-        {/* Main Content */}
-        <Tabs value={activeTab} onValueChange={setActiveTab}>
-          <TabsList className="grid w-full grid-cols-5">
-            <TabsTrigger value="overview">Overview</TabsTrigger>
-            <TabsTrigger value="sessions" data-tutorial="sessions">
-              Sessions
-            </TabsTrigger>
-            <TabsTrigger value="models">Models</TabsTrigger>
-            <TabsTrigger value="analytics" data-tutorial="analytics">
-              Analytics
-            </TabsTrigger>
-            <TabsTrigger value="sync">Cloud Sync</TabsTrigger>
-          </TabsList>
+        {/* Recent Sessions Section */}
+        <div className="space-y-4 animate-slide-up">
+          <div className="flex items-center justify-between">
+            <h2 className="text-2xl font-bold text-white flex items-center">
+              <Clock className="h-6 w-6 mr-2 text-sky-400" />
+              Recent Sessions
+            </h2>
+            <Button variant="ghost" className="text-blue-300 hover:text-white hover:bg-blue-500/10">
+              View All <ArrowRight className="h-4 w-4 ml-1" />
+            </Button>
+          </div>
 
-          <TabsContent value="overview" className="space-y-8">
-            {/* Stats Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-              <Card className="bg-gradient-to-br from-purple-500 to-pink-500 text-white border-0">
-                <CardContent className="p-6">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="text-purple-100 text-sm font-medium">Total Sessions</p>
-                      <p className="text-3xl font-bold">12</p>
-                      <p className="text-purple-200 text-xs">+3 this week</p>
-                    </div>
-                    <Cube className="h-10 w-10 text-purple-200" />
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card className="bg-gradient-to-br from-blue-500 to-cyan-500 text-white border-0">
-                <CardContent className="p-6">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="text-blue-100 text-sm font-medium">Total Views</p>
-                      <p className="text-3xl font-bold">1,247</p>
-                      <p className="text-blue-200 text-xs">+156 today</p>
-                    </div>
-                    <Eye className="h-10 w-10 text-blue-200" />
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card className="bg-gradient-to-br from-green-500 to-emerald-500 text-white border-0">
-                <CardContent className="p-6">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="text-green-100 text-sm font-medium">Total Likes</p>
-                      <p className="text-3xl font-bold">342</p>
-                      <p className="text-green-200 text-xs">+24 today</p>
-                    </div>
-                    <Heart className="h-10 w-10 text-green-200" />
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card className="bg-gradient-to-br from-orange-500 to-red-500 text-white border-0">
-                <CardContent className="p-6">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="text-orange-100 text-sm font-medium">Models Used</p>
-                      <p className="text-3xl font-bold">8</p>
-                      <p className="text-orange-200 text-xs">Premium quality</p>
-                    </div>
-                    <Upload className="h-10 w-10 text-orange-200" />
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-
-            {/* Quick Actions */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <Card className="hover:shadow-lg transition-shadow cursor-pointer">
-                <CardContent className="p-6 text-center">
-                  <div className="bg-purple-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <Cube className="h-8 w-8 text-purple-600" />
-                  </div>
-                  <h3 className="text-lg font-semibold mb-2">Start AR Session</h3>
-                  <p className="text-gray-600 mb-4">Create a new AR experience</p>
-                  <Link href="/ar">
-                    <Button className="w-full">Launch AR Studio</Button>
-                  </Link>
-                </CardContent>
-              </Card>
-
-              <Card className="hover:shadow-lg transition-shadow cursor-pointer">
-                <CardContent className="p-6 text-center">
-                  <div className="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <Eye className="h-8 w-8 text-blue-600" />
-                  </div>
-                  <h3 className="text-lg font-semibold mb-2">Browse Gallery</h3>
-                  <p className="text-gray-600 mb-4">Explore community creations</p>
-                  <Link href="/gallery">
-                    <Button variant="outline" className="w-full">
-                      View Gallery
-                    </Button>
-                  </Link>
-                </CardContent>
-              </Card>
-
-              <Card className="hover:shadow-lg transition-shadow cursor-pointer">
-                <CardContent className="p-6 text-center">
-                  <div className="bg-green-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <Search className="h-8 w-8 text-green-600" />
-                  </div>
-                  <h3 className="text-lg font-semibold mb-2">Explore Models</h3>
-                  <p className="text-gray-600 mb-4">Discover premium 3D models</p>
-                  <Link href="/explore">
-                    <Button variant="outline" className="w-full">
-                      Browse Models
-                    </Button>
-                  </Link>
-                </CardContent>
-              </Card>
-            </div>
-
-            {/* AI Recommendations */}
-            <AIRecommendations
-              userId="current-user"
-              currentContext="dashboard"
-              onRecommendationClick={handleRecommendationClick}
-            />
-          </TabsContent>
-
-          <TabsContent value="sessions" className="space-y-6">
+          {isLoading ? (
+             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {[1, 2, 3].map((i) => (
+                <div key={i} className="h-48 rounded-xl bg-white/5 animate-pulse" />
+              ))}
+             </div>
+          ) : sessions.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {recentSessions.map((session) => (
-                <Card key={session.id} className="overflow-hidden hover:shadow-lg transition-shadow">
-                  <div className="aspect-video bg-gray-100 relative">
-                    <img
-                      src={session.thumbnail || "/placeholder.svg"}
-                      alt={session.name}
-                      className="w-full h-full object-cover"
-                    />
-                    <div className="absolute top-2 right-2">
-                      <Badge variant={session.isPublic ? "default" : "secondary"}>
+              {sessions.map((session, index) => (
+                <Card key={session.id} className="glass-effect border-blue-500/20 hover-lift group" style={{ animationDelay: `${index * 100}ms` }}>
+                  <CardHeader className="pb-2">
+                    <div className="flex justify-between items-start">
+                      <CardTitle className="text-lg text-white group-hover:text-sky-300 transition-colors">
+                        {session.name}
+                      </CardTitle>
+                      <Badge variant="outline" className="border-blue-500/30 text-blue-200 text-xs">
                         {session.isPublic ? "Public" : "Private"}
                       </Badge>
                     </div>
-                  </div>
-                  <CardContent className="p-4">
-                    <h3 className="font-semibold text-lg mb-2">{session.name}</h3>
-                    <p className="text-sm text-gray-600 mb-3">Models: {session.models.join(", ")}</p>
-                    <div className="flex items-center justify-between text-sm text-gray-500 mb-4">
-                      <div className="flex items-center space-x-4">
-                        <span className="flex items-center">
-                          <Eye className="h-4 w-4 mr-1" />
-                          {session.views}
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-sm text-blue-300/80 mb-4">
+                      {new Date(session.createdAt).toLocaleDateString(undefined, { dateStyle: 'medium' })}
+                    </p>
+                    <div className="flex flex-wrap gap-2 mb-6">
+                      {session.models.slice(0, 3).map((model) => (
+                        <span key={model} className="px-2 py-1 rounded-md bg-blue-500/10 text-xs text-blue-200 border border-blue-500/20">
+                          {model}
                         </span>
-                        <span className="flex items-center">
-                          <Heart className="h-4 w-4 mr-1" />
-                          {session.likes}
+                      ))}
+                      {session.models.length > 3 && (
+                        <span className="px-2 py-1 rounded-md bg-blue-500/10 text-xs text-blue-200 border border-blue-500/20">
+                          +{session.models.length - 3}
                         </span>
-                      </div>
-                      <span className="flex items-center">
-                        <Calendar className="h-4 w-4 mr-1" />
-                        {session.createdAt}
-                      </span>
+                      )}
                     </div>
-                    <div className="flex space-x-2">
+                    <div className="flex items-center gap-3">
                       <Link href={`/ar?session=${session.id}`} className="flex-1">
-                        <Button size="sm" variant="outline" className="w-full">
-                          <Eye className="h-4 w-4 mr-1" />
-                          View
+                        <Button className="w-full bg-white/10 hover:bg-white/20 text-white border border-blue-500/30">
+                          Resume
                         </Button>
                       </Link>
-                      <Button size="sm" variant="outline">
-                        <Share2 className="h-4 w-4" />
-                      </Button>
-                      <Button size="sm" variant="outline" onClick={() => handleSessionDelete(session.id)}>
+                      <Button 
+                        variant="ghost" 
+                        size="icon" 
+                        className="text-blue-400 hover:text-red-400 hover:bg-red-500/10"
+                        onClick={() => handleDeleteSession(session.id)}
+                      >
                         <Trash2 className="h-4 w-4" />
                       </Button>
                     </div>
@@ -317,72 +196,20 @@ export default function DashboardPage() {
                 </Card>
               ))}
             </div>
-          </TabsContent>
-
-          <TabsContent value="models" className="space-y-6">
-            <div className="flex justify-between items-center">
-              <h2 className="text-xl font-semibold">My 3D Models</h2>
-              <Button onClick={handleModelUpload}>
-                <Upload className="h-4 w-4 mr-2" />
-                Upload New Model
-              </Button>
+          ) : (
+            <div className="text-center py-12 glass-effect rounded-xl border border-blue-500/20">
+              <LayoutGrid className="h-12 w-12 text-blue-400 mx-auto mb-4 opacity-50" />
+              <h3 className="text-lg font-medium text-white mb-2">No sessions yet</h3>
+              <p className="text-blue-300 mb-6">Start your first AR project today</p>
+              <Link href="/ar">
+                <Button className="bg-sky-600 hover:bg-sky-700 text-white">
+                  Create Project
+                </Button>
+              </Link>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {myModels.map((model) => (
-                <Card key={model.id} className="overflow-hidden hover:shadow-lg transition-shadow">
-                  <div className="aspect-square bg-gray-100">
-                    <img
-                      src={model.thumbnail || "/placeholder.svg"}
-                      alt={model.name}
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                  <CardContent className="p-4">
-                    <h3 className="font-semibold mb-1">{model.name}</h3>
-                    <p className="text-sm text-gray-600 mb-2">{model.type}</p>
-                    <div className="text-xs text-gray-500 space-y-1 mb-3">
-                      <div className="flex justify-between">
-                        <span>Size:</span>
-                        <span>{model.size}</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span>Downloads:</span>
-                        <span>{model.downloads}</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span>Uploaded:</span>
-                        <span>{model.uploadedAt}</span>
-                      </div>
-                    </div>
-                    <div className="flex space-x-2">
-                      <Link href={`/ar?model=${model.id}`} className="flex-1">
-                        <Button size="sm" variant="outline" className="w-full">
-                          <Eye className="h-4 w-4 mr-1" />
-                          View
-                        </Button>
-                      </Link>
-                      <Button size="sm" variant="outline">
-                        <Download className="h-4 w-4" />
-                      </Button>
-                      <Button size="sm" variant="outline" onClick={() => handleModelDelete(model.id)}>
-                        <Trash2 className="h-4 w-4" />
-                      </Button>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </TabsContent>
-
-          <TabsContent value="analytics" className="space-y-6">
-            <AnalyticsDashboard />
-          </TabsContent>
-
-          <TabsContent value="sync" className="space-y-6">
-            <CloudSync userId="current-user" isOnline={true} />
-          </TabsContent>
-        </Tabs>
+          )}
+        </div>
       </div>
-    </DashboardLayout>
+    </GlassLayout>
   )
 }

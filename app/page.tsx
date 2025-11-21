@@ -17,47 +17,44 @@ import Link from "next/link"
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
-      {/* Animated background */}
-      <div className="absolute inset-0 opacity-10">
-        <div className="absolute inset-0 bg-gradient-to-r from-purple-500/10 to-pink-500/10"></div>
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 relative overflow-hidden">
+      {/* Animated background with gradient shift */}
+      <div className="absolute inset-0 opacity-20">
+        <div className="absolute inset-0 bg-gradient-to-r from-purple-500/20 via-pink-500/20 to-cyan-500/20 animate-gradient-shift"></div>
         <div
-          className="absolute inset-0 animate-pulse"
+          className="absolute inset-0"
           style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fillRule='evenodd'%3E%3Cg fill='%239C92AC' fillOpacity='0.05'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+            backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fillRule='evenodd'%3E%3Cg fill='%239C92AC' fillOpacity='0.1'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
           }}
         ></div>
       </div>
 
-      {/* Header */}
-      <header className="relative container mx-auto px-4 py-6">
-        <nav className="flex items-center justify-between">
+      {/* Header with glass effect */}
+      <header className="relative container mx-auto px-4 py-6 animate-slide-down">
+        <nav className="flex items-center justify-between glass-effect rounded-2xl px-6 py-4">
           <div className="flex items-center space-x-3">
-            <div className="relative">
+            <div className="relative animate-float">
               <Cube className="h-10 w-10 text-purple-400" />
               <Sparkles className="h-4 w-4 text-yellow-400 absolute -top-1 -right-1 animate-pulse" />
             </div>
             <div>
-              <span className="text-3xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+              <span className="text-3xl font-bold text-gradient">
                 VirtuSpace
               </span>
-              <div className="flex items-center space-x-1">
-                <Crown className="h-3 w-3 text-yellow-400" />
-                <span className="text-xs text-purple-300 font-medium">PREMIUM</span>
-              </div>
+
             </div>
           </div>
           <div className="hidden md:flex items-center space-x-6">
-            <a href="#features" className="text-purple-200 hover:text-purple-100 transition-colors font-medium">
+            <a href="#features" className="text-purple-200 hover:text-purple-100 smooth-transition font-medium hover-lift">
               Features
             </a>
-            <a href="#gallery" className="text-purple-200 hover:text-purple-100 transition-colors font-medium">
+            <a href="#gallery" className="text-purple-200 hover:text-purple-100 smooth-transition font-medium hover-lift">
               Gallery
             </a>
             <Link href="/explore">
               <Button
                 variant="outline"
-                className="border-purple-400 text-purple-300 hover:bg-purple-400 hover:text-white"
+                className="border-purple-400 text-purple-300 hover:bg-purple-400 hover:text-white smooth-transition glow-purple"
               >
                 Explore
               </Button>
@@ -66,34 +63,34 @@ export default function HomePage() {
         </nav>
       </header>
 
-      {/* Hero Section */}
+      {/* Hero Section with animations */}
       <section className="relative container mx-auto px-4 py-20 text-center">
         <div className="max-w-5xl mx-auto">
-          <div className="mb-6">
-            <span className="inline-flex items-center px-4 py-2 rounded-full bg-purple-500/20 border border-purple-400/30 text-purple-300 text-sm font-medium mb-8">
-              <Sparkles className="h-4 w-4 mr-2" />
+          <div className="mb-6 animate-bounce-in">
+            <span className="inline-flex items-center px-4 py-2 rounded-full glass-effect border border-purple-400/30 text-purple-300 text-sm font-medium mb-8 glow-purple">
+              <Sparkles className="h-4 w-4 mr-2 animate-pulse" />
               Next-Generation AR Experience
             </span>
           </div>
 
-          <h1 className="text-6xl md:text-8xl font-bold mb-8">
+          <h1 className="text-6xl md:text-8xl font-bold mb-8 animate-slide-up">
             <span className="text-white">Visualize Your</span>
             <br />
-            <span className="bg-gradient-to-r from-purple-400 via-pink-400 to-purple-600 bg-clip-text text-transparent">
+            <span className="text-gradient animate-gradient-shift">
               Dream Space
             </span>
           </h1>
 
-          <p className="text-xl md:text-2xl text-purple-200 mb-12 max-w-3xl mx-auto leading-relaxed">
+          <p className="text-xl md:text-2xl text-purple-200 mb-12 max-w-3xl mx-auto leading-relaxed animate-fade-in">
             Experience the future of interior design with our premium AR platform. Place, customize, and interact with
             photorealistic 3D models in your real environment.
           </p>
 
-          <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
+          <div className="flex flex-col sm:flex-row gap-6 justify-center items-center animate-scale-in">
             <Link href="/ar">
               <Button
                 size="lg"
-                className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white px-10 py-6 text-xl font-semibold shadow-2xl shadow-purple-500/25 transform hover:scale-105 transition-all duration-300"
+                className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white px-10 py-6 text-xl font-semibold shadow-2xl shadow-purple-500/25 hover-lift smooth-transition glow-purple animate-glow-pulse"
               >
                 Launch AR Studio
                 <ArrowRight className="ml-3 h-6 w-6" />
@@ -103,7 +100,7 @@ export default function HomePage() {
               <Button
                 variant="outline"
                 size="lg"
-                className="px-10 py-6 text-xl border-2 border-purple-400 text-purple-300 hover:bg-purple-400 hover:text-white transition-all duration-300"
+                className="px-10 py-6 text-xl border-2 border-purple-400 text-purple-300 hover:bg-purple-400 hover:text-white smooth-transition hover-lift glow-pink"
               >
                 Browse Collection
               </Button>
@@ -111,36 +108,36 @@ export default function HomePage() {
           </div>
 
           <div className="mt-16 grid grid-cols-3 gap-8 max-w-2xl mx-auto">
-            <div className="text-center">
-              <div className="text-3xl font-bold text-white mb-2">500+</div>
+            <div className="text-center animate-slide-up hover-lift smooth-transition">
+              <div className="text-3xl font-bold text-gradient-cyan mb-2 animate-shimmer">500+</div>
               <div className="text-purple-300">Premium Models</div>
             </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold text-white mb-2">4K</div>
+            <div className="text-center animate-slide-up hover-lift smooth-transition" style={{animationDelay: '0.1s'}}>
+              <div className="text-3xl font-bold text-gradient-cyan mb-2 animate-shimmer">4K</div>
               <div className="text-purple-300">Ultra HD Textures</div>
             </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold text-white mb-2">100%</div>
+            <div className="text-center animate-slide-up hover-lift smooth-transition" style={{animationDelay: '0.2s'}}>
+              <div className="text-3xl font-bold text-gradient-cyan mb-2 animate-shimmer">100%</div>
               <div className="text-purple-300">Free Forever</div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Features Section */}
+      {/* Features Section with staggered animations */}
       <section id="features" className="relative py-24">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-20">
-            <h2 className="text-5xl font-bold text-white mb-6">Premium Features</h2>
+          <div className="text-center mb-20 animate-fade-in">
+            <h2 className="text-5xl font-bold text-gradient mb-6">Premium Features</h2>
             <p className="text-xl text-purple-200 max-w-3xl mx-auto">
               Professional-grade AR technology with intuitive controls and stunning visuals
             </p>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <Card className="bg-white/5 backdrop-blur-xl border border-purple-500/20 hover:border-purple-400/40 transition-all duration-300 hover:transform hover:scale-105">
+            <Card className="glass-effect border border-purple-500/20 hover:border-purple-400/50 smooth-transition hover-lift animate-scale-in glow-purple">
               <CardHeader className="text-center p-8">
-                <div className="bg-gradient-to-br from-purple-500 to-pink-500 w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                <div className="bg-gradient-to-br from-purple-500 to-pink-500 w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-6 animate-float glow-purple">
                   <Smartphone className="h-8 w-8 text-white" />
                 </div>
                 <CardTitle className="text-white text-xl mb-4">Real-Time Interaction</CardTitle>
@@ -244,10 +241,7 @@ export default function HomePage() {
                 <span className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
                   VirtuSpace
                 </span>
-                <div className="flex items-center space-x-1">
-                  <Crown className="h-3 w-3 text-yellow-400" />
-                  <span className="text-xs text-purple-300">PREMIUM</span>
-                </div>
+
               </div>
             </div>
             <div className="flex space-x-8">

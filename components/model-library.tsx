@@ -33,19 +33,11 @@ const modelCategories = {
     icon: Armchair,
     color: "from-blue-500 to-cyan-500",
     models: [
-      {
-        id: "chair-executive",
-        name: "Executive Chair",
-        description: "Luxury leather office chair",
-        quality: "Premium",
-      },
-      { id: "chair-barcelona", name: "Barcelona Chair", description: "Iconic mid-century design", quality: "Premium" },
-      { id: "chair-eames", name: "Eames Lounge", description: "Classic designer chair", quality: "Premium" },
-      { id: "chair-wingback", name: "Wingback Chair", description: "Traditional high-back chair", quality: "Premium" },
-      { id: "chair-accent", name: "Accent Chair", description: "Stylish statement piece", quality: "Standard" },
+      { id: "chair-lounge", name: "Modern Lounge Chair", description: "Contemporary green lounge chair", quality: "Premium" },
+      { id: "chair-bean-bag", name: "Bean Bag Chair", description: "Comfortable bean bag seating", quality: "Standard" },
+      { id: "chair-rocking", name: "Rocking Chair", description: "Classic wooden rocking chair", quality: "Standard" },
+      { id: "chair-stool", name: "Office Stool", description: "Modern adjustable stool", quality: "Standard" },
       { id: "chair-dining", name: "Dining Chair", description: "Elegant dining room chair", quality: "Standard" },
-      { id: "chair-bar", name: "Bar Stool", description: "Modern bar height stool", quality: "Standard" },
-      { id: "chair-rocking", name: "Rocking Chair", description: "Comfortable rocking chair", quality: "Standard" },
     ],
   },
   tables: {
@@ -53,14 +45,10 @@ const modelCategories = {
     icon: Table,
     color: "from-green-500 to-emerald-500",
     models: [
-      { id: "table-conference", name: "Conference Table", description: "Large meeting table", quality: "Premium" },
-      { id: "table-marble", name: "Marble Dining", description: "Luxury marble top table", quality: "Premium" },
-      { id: "table-glass", name: "Glass Coffee", description: "Modern glass coffee table", quality: "Premium" },
-      { id: "table-industrial", name: "Industrial Desk", description: "Metal and wood desk", quality: "Premium" },
-      { id: "table-console", name: "Console Table", description: "Entryway console", quality: "Standard" },
-      { id: "table-side", name: "Side Table", description: "Compact accent table", quality: "Standard" },
-      { id: "table-outdoor", name: "Outdoor Table", description: "Weather-resistant table", quality: "Standard" },
-      { id: "table-nesting", name: "Nesting Tables", description: "Set of stackable tables", quality: "Standard" },
+      { id: "table-round", name: "Round Dining Table", description: "Circular wooden dining table", quality: "Premium" },
+      { id: "table-console", name: "Console Table", description: "Elegant entryway console", quality: "Premium" },
+      { id: "table-side", name: "Side Table", description: "Modern accent table", quality: "Standard" },
+      { id: "table-bar", name: "Bar Table", description: "Industrial bar height table", quality: "Standard" },
     ],
   },
   lighting: {
@@ -68,14 +56,10 @@ const modelCategories = {
     icon: Lamp,
     color: "from-yellow-500 to-amber-500",
     models: [
-      { id: "lamp-crystal", name: "Crystal Chandelier", description: "Luxury crystal fixture", quality: "Premium" },
-      { id: "lamp-designer", name: "Designer Floor", description: "Iconic floor lamp", quality: "Premium" },
-      { id: "lamp-smart", name: "Smart Pendant", description: "IoT-enabled pendant light", quality: "Premium" },
-      { id: "lamp-vintage", name: "Vintage Edison", description: "Retro Edison bulb fixture", quality: "Premium" },
-      { id: "lamp-table", name: "Table Lamp", description: "Classic bedside lamp", quality: "Standard" },
-      { id: "lamp-wall", name: "Wall Sconce", description: "Mounted wall light", quality: "Standard" },
-      { id: "lamp-track", name: "Track Lighting", description: "Adjustable track system", quality: "Standard" },
-      { id: "lamp-string", name: "String Lights", description: "Decorative string lights", quality: "Standard" },
+      { id: "lamp-floor", name: "Arc Floor Lamp", description: "Modern arc floor lamp", quality: "Premium" },
+      { id: "lamp-pendant", name: "Pendant Light", description: "Hanging pendant fixture", quality: "Premium" },
+      { id: "lamp-wall", name: "Wall Sconce", description: "Elegant wall-mounted light", quality: "Standard" },
+      { id: "lamp-desk", name: "Desk Lamp", description: "Minimalist desk lamp", quality: "Standard" },
     ],
   },
   plants: {
@@ -83,14 +67,10 @@ const modelCategories = {
     icon: TreePine,
     color: "from-emerald-500 to-green-500",
     models: [
-      { id: "plant-bonsai", name: "Bonsai Tree", description: "Miniature Japanese tree", quality: "Premium" },
-      { id: "plant-olive", name: "Olive Tree", description: "Mediterranean olive tree", quality: "Premium" },
-      { id: "plant-bird", name: "Bird of Paradise", description: "Tropical statement plant", quality: "Premium" },
-      { id: "plant-monstera", name: "Monstera Deliciosa", description: "Large tropical plant", quality: "Premium" },
-      { id: "plant-fiddle", name: "Fiddle Leaf Fig", description: "Popular indoor tree", quality: "Standard" },
-      { id: "plant-snake", name: "Snake Plant", description: "Low maintenance succulent", quality: "Standard" },
-      { id: "plant-pothos", name: "Golden Pothos", description: "Trailing vine plant", quality: "Standard" },
       { id: "plant-cactus", name: "Desert Cactus", description: "Southwestern succulent", quality: "Standard" },
+      { id: "plant-fiddle", name: "Fiddle Leaf Fig", description: "Popular indoor tree", quality: "Premium" },
+      { id: "plant-snake", name: "Snake Plant", description: "Low maintenance succulent", quality: "Standard" },
+      { id: "plant-bamboo", name: "Bamboo Plant", description: "Zen bamboo arrangement", quality: "Standard" },
     ],
   },
   sofas: {
@@ -98,14 +78,8 @@ const modelCategories = {
     icon: Sofa,
     color: "from-purple-500 to-pink-500",
     models: [
-      { id: "sofa-chesterfield", name: "Chesterfield", description: "Classic tufted leather sofa", quality: "Premium" },
-      { id: "sofa-sectional", name: "Sectional Sofa", description: "Large L-shaped sofa", quality: "Premium" },
-      { id: "sofa-mid-century", name: "Mid-Century", description: "Retro modern design", quality: "Premium" },
-      { id: "sofa-modular", name: "Modular System", description: "Configurable seating", quality: "Premium" },
-      { id: "sofa-loveseat", name: "Loveseat", description: "Compact 2-seater", quality: "Standard" },
-      { id: "sofa-sleeper", name: "Sleeper Sofa", description: "Convertible sofa bed", quality: "Standard" },
-      { id: "sofa-recliner", name: "Reclining Sofa", description: "Comfortable recliner", quality: "Standard" },
-      { id: "sofa-outdoor", name: "Outdoor Sofa", description: "Weather-resistant seating", quality: "Standard" },
+      { id: "sofa-loveseat", name: "Loveseat", description: "Compact 2-seater sofa", quality: "Premium" },
+      { id: "sofa-chaise", name: "Chaise Lounge", description: "Elegant chaise lounge", quality: "Premium" },
     ],
   },
   bedroom: {
@@ -133,14 +107,22 @@ const modelCategories = {
     icon: Flower,
     color: "from-pink-500 to-rose-500",
     models: [
-      { id: "art-sculpture", name: "Modern Sculpture", description: "Contemporary art piece", quality: "Premium" },
-      { id: "vase-ceramic", name: "Ceramic Vase", description: "Handcrafted ceramic vase", quality: "Premium" },
-      { id: "mirror-decorative", name: "Decorative Mirror", description: "Ornate wall mirror", quality: "Premium" },
-      { id: "clock-wall", name: "Designer Clock", description: "Modern wall clock", quality: "Premium" },
-      { id: "candles-set", name: "Candle Set", description: "Luxury scented candles", quality: "Standard" },
-      { id: "books-stack", name: "Book Collection", description: "Decorative book stack", quality: "Standard" },
-      { id: "frame-photo", name: "Photo Frames", description: "Elegant picture frames", quality: "Standard" },
-      { id: "rug-area", name: "Area Rug", description: "Designer area rug", quality: "Standard" },
+      { id: "decor-bookshelf", name: "Modern Bookshelf", description: "Contemporary bookshelf", quality: "Premium" },
+      { id: "decor-mirror", name: "Wall Mirror", description: "Decorative wall mirror", quality: "Premium" },
+      { id: "decor-rug", name: "Persian Rug", description: "Luxury area rug", quality: "Premium" },
+      { id: "decor-art", name: "Wall Art", description: "Modern wall art piece", quality: "Standard" },
+      { id: "decor-sculpture", name: "Abstract Sculpture", description: "Contemporary sculpture", quality: "Premium" },
+    ],
+  },
+  storage: {
+    name: "Storage",
+    icon: Package,
+    color: "from-orange-500 to-red-500",
+    models: [
+      { id: "storage-cabinet", name: "Storage Cabinet", description: "Modern storage cabinet", quality: "Premium" },
+      { id: "storage-dresser", name: "Dresser", description: "Wooden bedroom dresser", quality: "Premium" },
+      { id: "storage-shelf", name: "Shelving Unit", description: "Industrial shelving", quality: "Standard" },
+      { id: "storage-wardrobe", name: "Wardrobe", description: "Classic wardrobe closet", quality: "Premium" },
     ],
   },
   tech: {
@@ -181,16 +163,16 @@ export default function ModelLibrary({ onModelSelect, onClose }: ModelLibraryPro
   })
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-end">
-      <Card className="w-full max-h-[85vh] bg-gradient-to-br from-slate-900/95 to-purple-900/95 backdrop-blur-xl border border-purple-500/30 rounded-t-3xl overflow-hidden">
+    <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-end animate-fade-in">
+      <Card className="w-full max-h-[85vh] bg-gradient-to-br from-slate-900/95 to-purple-900/95 backdrop-blur-xl border border-purple-500/30 rounded-t-3xl overflow-hidden animate-slide-up shadow-2xl shadow-purple-500/20">
         <CardHeader className="border-b border-purple-500/20 bg-gradient-to-r from-purple-600/20 to-pink-600/20">
           <div className="flex items-center justify-between">
             <CardTitle className="text-white text-2xl font-bold flex items-center">
-              <Package className="h-6 w-6 mr-3 text-purple-400" />
-              Premium Collection
-              <Crown className="h-5 w-5 ml-2 text-yellow-400" />
+              <Package className="h-6 w-6 mr-3 text-purple-400 animate-float" />
+              <span className="text-gradient">Premium Collection</span>
+              <Crown className="h-5 w-5 ml-2 text-yellow-400 animate-pulse" />
             </CardTitle>
-            <Button variant="ghost" size="sm" onClick={onClose} className="text-white hover:bg-white/10">
+            <Button variant="ghost" size="sm" onClick={onClose} className="text-white hover:bg-white/10 smooth-transition">
               <X className="h-5 w-5" />
             </Button>
           </div>
@@ -202,7 +184,7 @@ export default function ModelLibrary({ onModelSelect, onClose }: ModelLibraryPro
                 placeholder="Search premium models..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-10 bg-white/10 border-purple-400/30 text-white placeholder:text-purple-300"
+                className="pl-10 bg-white/10 border-purple-400/30 text-white placeholder:text-purple-300 focus:glow-purple smooth-transition"
               />
             </div>
             <div className="flex gap-2">
@@ -210,7 +192,7 @@ export default function ModelLibrary({ onModelSelect, onClose }: ModelLibraryPro
                 variant={qualityFilter === "all" ? "default" : "outline"}
                 size="sm"
                 onClick={() => setQualityFilter("all")}
-                className="border-purple-400/30"
+                className="border-purple-400/30 smooth-transition hover-lift"
               >
                 All
               </Button>
@@ -218,9 +200,9 @@ export default function ModelLibrary({ onModelSelect, onClose }: ModelLibraryPro
                 variant={qualityFilter === "premium" ? "default" : "outline"}
                 size="sm"
                 onClick={() => setQualityFilter("premium")}
-                className="border-purple-400/30"
+                className="border-purple-400/30 smooth-transition hover-lift glow-purple"
               >
-                <Crown className="h-4 w-4 mr-1" />
+                <Crown className="h-4 w-4 mr-1 animate-pulse" />
                 Premium
               </Button>
             </div>
@@ -229,14 +211,14 @@ export default function ModelLibrary({ onModelSelect, onClose }: ModelLibraryPro
 
         <CardContent className="overflow-y-auto max-h-[60vh] p-6">
           <Tabs value={selectedCategory} onValueChange={setSelectedCategory}>
-            <TabsList className="grid w-full grid-cols-4 lg:grid-cols-8 mb-6 bg-white/5 border border-purple-500/20">
+            <TabsList className="grid w-full grid-cols-4 lg:grid-cols-8 mb-6 glass-effect border border-purple-500/20">
               {Object.entries(modelCategories).map(([key, category]) => {
                 const IconComponent = category.icon
                 return (
                   <TabsTrigger
                     key={key}
                     value={key}
-                    className="flex flex-col items-center p-3 data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-600 data-[state=active]:to-pink-600 text-white"
+                    className="flex flex-col items-center p-3 data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-600 data-[state=active]:to-pink-600 text-white smooth-transition data-[state=active]:glow-purple"
                   >
                     <IconComponent className="h-5 w-5 mb-1" />
                     <span className="text-xs font-medium">{category.name}</span>
@@ -248,10 +230,11 @@ export default function ModelLibrary({ onModelSelect, onClose }: ModelLibraryPro
             {Object.entries(modelCategories).map(([key, category]) => (
               <TabsContent key={key} value={key}>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-                  {filteredModels.map((model) => (
+                  {filteredModels.map((model, index) => (
                     <Card
                       key={model.id}
-                      className="group bg-white/5 backdrop-blur-sm border border-purple-500/20 hover:border-purple-400/50 transition-all duration-300 cursor-pointer hover:transform hover:scale-105 hover:shadow-2xl hover:shadow-purple-500/25"
+                      className="group glass-effect border border-purple-500/20 hover:border-purple-400/50 smooth-transition cursor-pointer hover-lift hover:shadow-2xl hover:shadow-purple-500/25 animate-scale-in"
+                      style={{animationDelay: `${index * 0.05}s`}}
                       onClick={() => onModelSelect(model.id)}
                     >
                       <CardContent className="p-4">
@@ -264,9 +247,9 @@ export default function ModelLibrary({ onModelSelect, onClose }: ModelLibraryPro
                           </div>
                           <Badge
                             variant={model.quality === "Premium" ? "default" : "secondary"}
-                            className={`text-xs ${
+                            className={`text-xs smooth-transition ${
                               model.quality === "Premium"
-                                ? "bg-gradient-to-r from-yellow-500 to-amber-500 text-black"
+                                ? "bg-gradient-to-r from-yellow-500 to-amber-500 text-black animate-shimmer"
                                 : "bg-purple-500/20 text-purple-300"
                             }`}
                           >
@@ -276,14 +259,14 @@ export default function ModelLibrary({ onModelSelect, onClose }: ModelLibraryPro
                         </div>
 
                         <div className="flex items-center justify-between">
-                          <div className={`p-3 rounded-xl bg-gradient-to-r ${category.color} shadow-lg`}>
+                          <div className={`p-3 rounded-xl bg-gradient-to-r ${category.color} shadow-lg animate-float`}>
                             <category.icon className="h-5 w-5 text-white" />
                           </div>
                           <Button
                             size="sm"
-                            className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white text-xs px-4 opacity-0 group-hover:opacity-100 transition-all duration-300"
+                            className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white text-xs px-4 opacity-0 group-hover:opacity-100 smooth-transition glow-pink"
                           >
-                            <Sparkles className="h-3 w-3 mr-1" />
+                            <Sparkles className="h-3 w-3 mr-1 animate-pulse" />
                             Place in AR
                           </Button>
                         </div>

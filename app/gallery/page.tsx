@@ -4,307 +4,200 @@ import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Input } from "@/components/ui/input"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Search, Filter, Heart, Eye, Download, Share2, Star, Crown, Sparkles, Play } from "lucide-react"
+import { Heart, Share2, Download, Maximize2, Filter, Search, ArrowLeft } from "lucide-react"
 import Link from "next/link"
-import DashboardLayout from "@/components/dashboard-layout"
+import GlassLayout from "@/components/glass-layout"
 
+// Mock Data for Gallery
 const galleryItems = [
   {
     id: 1,
-    title: "Modern Living Room",
-    creator: "DesignStudio Pro",
-    description: "Minimalist living space with premium furniture",
-    thumbnail: "/images/living-room-1.png",
-    models: ["sofa-sectional", "table-glass", "lamp-designer"],
-    likes: 1247,
-    views: 8934,
-    downloads: 456,
-    rating: 4.9,
-    category: "Living Room",
-    isPremium: true,
-    tags: ["modern", "minimalist", "luxury"],
+    title: "Cyberpunk Living Room",
+    creator: "NeonDreamer",
+    image: "/gallery/cyberpunk-room.jpg", // Placeholder
+    likes: 1240,
+    views: 5300,
+    tags: ["Cyberpunk", "Neon", "Living Room"],
+    color: "from-pink-500 to-purple-600", // Keep for variety or change? Let's keep item specific colors but update UI
   },
   {
     id: 2,
-    title: "Executive Office",
-    creator: "WorkSpace Design",
-    description: "Professional office setup with premium materials",
-    thumbnail: "/images/office-1.png",
-    models: ["chair-executive", "table-conference", "lamp-smart"],
-    likes: 892,
-    views: 5621,
-    downloads: 234,
-    rating: 4.7,
-    category: "Office",
-    isPremium: true,
-    tags: ["office", "professional", "executive"],
+    title: "Zen Garden Office",
+    creator: "MinimalistPro",
+    image: "/gallery/zen-office.jpg",
+    likes: 890,
+    views: 3200,
+    tags: ["Minimalist", "Office", "Nature"],
+    color: "from-green-400 to-emerald-600",
   },
   {
     id: 3,
-    title: "Zen Garden Room",
-    creator: "Nature Spaces",
-    description: "Peaceful space with natural elements",
-    thumbnail: "/images/zen-garden.png",
-    models: ["plant-bonsai", "table-industrial", "chair-wingback"],
-    likes: 1456,
-    views: 9876,
-    downloads: 678,
-    rating: 4.8,
-    category: "Bedroom",
-    isPremium: true,
-    tags: ["zen", "nature", "peaceful"],
+    title: "Futuristic Kitchen",
+    creator: "TechHome",
+    image: "/gallery/future-kitchen.jpg",
+    likes: 2100,
+    views: 8900,
+    tags: ["Futuristic", "Kitchen", "Clean"],
+    color: "from-blue-400 to-cyan-600",
   },
   {
     id: 4,
-    title: "Luxury Bedroom",
-    creator: "Elite Interiors",
-    description: "Opulent bedroom with premium finishes",
-    thumbnail: "/images/bedroom-1.png",
-    models: ["bed-king", "dresser-modern", "lamp-crystal"],
-    likes: 2134,
-    views: 12456,
-    downloads: 890,
-    rating: 4.9,
-    category: "Bedroom",
-    isPremium: true,
-    tags: ["luxury", "bedroom", "elegant"],
+    title: "Industrial Loft",
+    creator: "UrbanStyle",
+    image: "/gallery/loft.jpg",
+    likes: 750,
+    views: 2800,
+    tags: ["Industrial", "Loft", "Raw"],
+    color: "from-orange-400 to-red-600",
   },
   {
     id: 5,
-    title: "Industrial Loft",
-    creator: "Urban Designs",
-    description: "Raw industrial aesthetic with modern touches",
-    thumbnail: "/images/living-room-2.png",
-    models: ["sofa-mid-century", "table-industrial", "lamp-vintage"],
-    likes: 987,
-    views: 6543,
-    downloads: 345,
-    rating: 4.6,
-    category: "Living Room",
-    isPremium: false,
-    tags: ["industrial", "loft", "urban"],
+    title: "Cozy Reading Nook",
+    creator: "BookWorm",
+    image: "/gallery/nook.jpg",
+    likes: 1500,
+    views: 6000,
+    tags: ["Cozy", "Reading", "Warm"],
+    color: "from-amber-400 to-orange-600",
   },
   {
     id: 6,
-    title: "Scandinavian Kitchen",
-    creator: "Nordic Home",
-    description: "Clean Scandinavian design principles",
-    thumbnail: "/images/kitchen-1.png",
-    models: ["chair-dining", "table-marble", "plant-monstera"],
-    likes: 1678,
-    views: 8765,
-    downloads: 567,
-    rating: 4.8,
-    category: "Kitchen",
-    isPremium: true,
-    tags: ["scandinavian", "kitchen", "clean"],
+    title: "Space Station Bedroom",
+    creator: "AstroDesign",
+    image: "/gallery/space-bedroom.jpg",
+    likes: 3200,
+    views: 12000,
+    tags: ["Space", "Bedroom", "Sci-Fi"],
+    color: "from-indigo-400 to-purple-600",
   },
 ]
 
-const categories = ["All", "Living Room", "Bedroom", "Office", "Kitchen", "Bathroom"]
+const categories = ["All", "Living Room", "Office", "Kitchen", "Bedroom", "Outdoor"]
 
 export default function GalleryPage() {
+  const [activeCategory, setActiveCategory] = useState("All")
   const [searchQuery, setSearchQuery] = useState("")
-  const [selectedCategory, setSelectedCategory] = useState("All")
-  const [sortBy, setSortBy] = useState("popular")
-  const [showPremiumOnly, setShowPremiumOnly] = useState(false)
 
   const filteredItems = galleryItems.filter((item) => {
-    const matchesSearch =
-      item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      item.tags.some((tag) => tag.toLowerCase().includes(searchQuery.toLowerCase()))
-    const matchesCategory = selectedCategory === "All" || item.category === selectedCategory
-    const matchesPremium = !showPremiumOnly || item.isPremium
-    return matchesSearch && matchesCategory && matchesPremium
-  })
-
-  const sortedItems = [...filteredItems].sort((a, b) => {
-    switch (sortBy) {
-      case "popular":
-        return b.likes - a.likes
-      case "recent":
-        return b.id - a.id
-      case "rating":
-        return b.rating - a.rating
-      case "downloads":
-        return b.downloads - a.downloads
-      default:
-        return 0
-    }
+    const matchesCategory = activeCategory === "All" || item.tags.includes(activeCategory)
+    const matchesSearch = item.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                          item.creator.toLowerCase().includes(searchQuery.toLowerCase())
+    return matchesCategory && matchesSearch
   })
 
   return (
-    <DashboardLayout>
+    <GlassLayout>
       <div className="space-y-8">
-        {/* Header */}
-        <div className="flex items-center justify-between">
+        {/* Header Section */}
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 animate-fade-in">
           <div>
-            <h1 className="text-4xl font-bold text-gray-900 flex items-center">
-              <Sparkles className="h-8 w-8 mr-3 text-purple-600" />
-              Premium Gallery
+            <h1 className="text-4xl font-bold text-white mb-2">
+              Inspiration <span className="text-gradient-cyan">Gallery</span>
             </h1>
-            <p className="text-gray-600 mt-2">Discover stunning AR room designs from our community</p>
+            <p className="text-blue-200">Explore stunning AR spaces created by the community.</p>
           </div>
-          <Link href="/ar">
-            <Button className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700">
-              <Play className="h-4 w-4 mr-2" />
-              Create New Scene
-            </Button>
-          </Link>
+          <div className="flex gap-3">
+             <Link href="/ar">
+              <Button className="bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-600 hover:to-blue-700 text-white glow-cyan animate-glow-pulse border-0">
+                Create Your Own
+              </Button>
+            </Link>
+          </div>
         </div>
 
-        {/* Search and Filters */}
-        <div className="flex flex-col md:flex-row gap-4">
-          <div className="flex-1 relative">
-            <Search className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
-            <Input
-              placeholder="Search gallery, creators, or tags..."
+        {/* Search and Filter Bar */}
+        <div className="flex flex-col md:flex-row gap-4 glass-effect p-4 rounded-xl border border-blue-500/20 animate-slide-up">
+          <div className="relative flex-1">
+            <Search className="absolute left-3 top-3 h-4 w-4 text-blue-400" />
+            <input 
+              type="text" 
+              placeholder="Search designs, creators..." 
+              className="w-full bg-blue-950/30 border border-blue-500/30 rounded-lg py-2 pl-10 pr-4 text-white placeholder:text-blue-400/50 focus:outline-none focus:border-blue-400 transition-colors"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-10"
             />
           </div>
-          <div className="flex gap-2">
-            <Button
-              variant={showPremiumOnly ? "default" : "outline"}
-              onClick={() => setShowPremiumOnly(!showPremiumOnly)}
-              className="flex items-center"
-            >
-              <Crown className="h-4 w-4 mr-2" />
-              Premium Only
-            </Button>
-            <Button variant="outline">
-              <Filter className="h-4 w-4 mr-2" />
-              More Filters
-            </Button>
+          <div className="flex gap-2 overflow-x-auto pb-2 md:pb-0 no-scrollbar">
+            {categories.map((category) => (
+              <Button
+                key={category}
+                variant={activeCategory === category ? "default" : "outline"}
+                size="sm"
+                onClick={() => setActiveCategory(category)}
+                className={activeCategory === category 
+                  ? "bg-blue-600 hover:bg-blue-700 text-white border-0" 
+                  : "border-blue-500/30 text-blue-200 hover:bg-blue-500/20 hover:text-white bg-transparent whitespace-nowrap"}
+              >
+                {category}
+              </Button>
+            ))}
           </div>
         </div>
 
-        {/* Categories */}
-        <div className="flex flex-wrap gap-2">
-          {categories.map((category) => (
-            <Button
-              key={category}
-              variant={selectedCategory === category ? "default" : "outline"}
-              size="sm"
-              onClick={() => setSelectedCategory(category)}
-            >
-              {category}
-            </Button>
+        {/* Gallery Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {filteredItems.map((item, index) => (
+            <Card key={item.id} className="glass-effect border-blue-500/20 overflow-hidden hover-lift group" style={{ animationDelay: `${index * 100}ms` }}>
+              {/* Image Placeholder Area */}
+              <div className={`h-48 w-full bg-gradient-to-br ${item.color} relative p-6 flex flex-col justify-between`}>
+                <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors" />
+                
+                <div className="flex justify-between items-start relative z-10">
+                  <Badge className="bg-black/30 backdrop-blur-md border-0 text-white hover:bg-black/40">
+                    {item.tags[0]}
+                  </Badge>
+                  <Button size="icon" variant="secondary" className="h-8 w-8 rounded-full bg-white/20 hover:bg-white/40 text-white border-0 backdrop-blur-md opacity-0 group-hover:opacity-100 transition-opacity">
+                    <Heart className="h-4 w-4" />
+                  </Button>
+                </div>
+
+                <div className="relative z-10 opacity-0 group-hover:opacity-100 transition-opacity transform translate-y-4 group-hover:translate-y-0 duration-300">
+                   <Link href={`/ar?template=${item.id}`}>
+                    <Button className="w-full bg-white/90 hover:bg-white text-blue-900 font-semibold">
+                      Use Template
+                    </Button>
+                   </Link>
+                </div>
+              </div>
+
+              <CardContent className="p-5">
+                <div className="flex justify-between items-start mb-2">
+                  <div>
+                    <h3 className="text-lg font-bold text-white group-hover:text-sky-300 transition-colors">{item.title}</h3>
+                    <p className="text-sm text-blue-300">by {item.creator}</p>
+                  </div>
+                </div>
+                
+                <div className="flex items-center justify-between mt-4 pt-4 border-t border-blue-500/20">
+                  <div className="flex gap-4 text-sm text-blue-200">
+                    <span className="flex items-center gap-1"><Heart className="h-3 w-3 text-pink-400" /> {item.likes}</span>
+                    <span className="flex items-center gap-1"><Maximize2 className="h-3 w-3 text-sky-400" /> {item.views}</span>
+                  </div>
+                  <Button variant="ghost" size="sm" className="text-blue-300 hover:text-white hover:bg-blue-500/10 h-8">
+                    <Share2 className="h-4 w-4" />
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
           ))}
         </div>
 
-        {/* Sort Options */}
-        <Tabs value={sortBy} onValueChange={setSortBy}>
-          <TabsList>
-            <TabsTrigger value="popular">Most Popular</TabsTrigger>
-            <TabsTrigger value="recent">Most Recent</TabsTrigger>
-            <TabsTrigger value="rating">Highest Rated</TabsTrigger>
-            <TabsTrigger value="downloads">Most Downloaded</TabsTrigger>
-          </TabsList>
-
-          <TabsContent value={sortBy} className="mt-8">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {sortedItems.map((item) => (
-                <Card key={item.id} className="overflow-hidden hover:shadow-xl transition-all duration-300 group">
-                  <div className="aspect-video bg-gray-100 relative overflow-hidden">
-                    <img
-                      src={item.thumbnail || "/placeholder.svg"}
-                      alt={item.title}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                    />
-                    <div className="absolute top-3 left-3">
-                      {item.isPremium && (
-                        <Badge className="bg-gradient-to-r from-yellow-500 to-amber-500 text-black">
-                          <Crown className="h-3 w-3 mr-1" />
-                          Premium
-                        </Badge>
-                      )}
-                    </div>
-                    <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity">
-                      <Button size="sm" variant="secondary">
-                        <Heart className="h-4 w-4" />
-                      </Button>
-                    </div>
-                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors flex items-center justify-center opacity-0 group-hover:opacity-100">
-                      <div className="space-x-2">
-                        <Link href={`/ar?scene=${item.id}`}>
-                          <Button>
-                            <Play className="h-4 w-4 mr-2" />
-                            View in AR
-                          </Button>
-                        </Link>
-                      </div>
-                    </div>
-                  </div>
-
-                  <CardContent className="p-6">
-                    <div className="flex items-start justify-between mb-3">
-                      <div>
-                        <h3 className="font-bold text-lg mb-1">{item.title}</h3>
-                        <p className="text-sm text-gray-600 mb-1">by {item.creator}</p>
-                        <p className="text-sm text-gray-500 line-clamp-2">{item.description}</p>
-                      </div>
-                      <div className="flex items-center text-sm text-gray-500">
-                        <Star className="h-4 w-4 text-yellow-400 mr-1" />
-                        {item.rating}
-                      </div>
-                    </div>
-
-                    <div className="flex flex-wrap gap-1 mb-4">
-                      {item.tags.slice(0, 3).map((tag) => (
-                        <Badge key={tag} variant="outline" className="text-xs">
-                          {tag}
-                        </Badge>
-                      ))}
-                    </div>
-
-                    <div className="flex items-center justify-between text-sm text-gray-500 mb-4">
-                      <span className="flex items-center">
-                        <Heart className="h-4 w-4 mr-1" />
-                        {item.likes}
-                      </span>
-                      <span className="flex items-center">
-                        <Eye className="h-4 w-4 mr-1" />
-                        {item.views}
-                      </span>
-                      <span className="flex items-center">
-                        <Download className="h-4 w-4 mr-1" />
-                        {item.downloads}
-                      </span>
-                    </div>
-
-                    <div className="flex space-x-2">
-                      <Link href={`/ar?scene=${item.id}`} className="flex-1">
-                        <Button size="sm" className="w-full">
-                          <Play className="h-4 w-4 mr-1" />
-                          Experience
-                        </Button>
-                      </Link>
-                      <Button size="sm" variant="outline">
-                        <Share2 className="h-4 w-4" />
-                      </Button>
-                      <Button size="sm" variant="outline">
-                        <Download className="h-4 w-4" />
-                      </Button>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </TabsContent>
-        </Tabs>
-
-        {sortedItems.length === 0 && (
-          <div className="text-center py-12">
-            <Search className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-            <h3 className="text-lg font-semibold text-gray-900 mb-2">No gallery items found</h3>
-            <p className="text-gray-600">Try adjusting your search or filters</p>
+        {filteredItems.length === 0 && (
+          <div className="text-center py-20 glass-effect rounded-xl border border-blue-500/20">
+            <Filter className="h-12 w-12 text-blue-400 mx-auto mb-4 opacity-50" />
+            <h3 className="text-xl font-bold text-white mb-2">No designs found</h3>
+            <p className="text-blue-200">Try adjusting your filters or search query.</p>
+            <Button 
+              variant="link" 
+              className="text-sky-400 mt-2"
+              onClick={() => {setActiveCategory("All"); setSearchQuery("")}}
+            >
+              Clear all filters
+            </Button>
           </div>
         )}
       </div>
-    </DashboardLayout>
+    </GlassLayout>
   )
 }

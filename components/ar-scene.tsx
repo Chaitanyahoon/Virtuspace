@@ -15,122 +15,161 @@ interface ARSceneProps {
   onTransformChange: (transform: any) => void
 }
 
-// Enhanced model configurations with ultra-realistic materials
+// Diverse model configurations with unique furniture pieces
 const modelConfigs = {
-  // Premium Seating
-  "chair-executive": {
-    name: "Executive Chair",
-    colors: { seat: "#1C1C1C", back: "#1C1C1C", legs: "#C0C0C0", accent: "#B5A642" },
-    materials: { metallic: 0.9, roughness: 0.1, leather: true },
-  },
-  "chair-barcelona": {
-    name: "Barcelona Chair",
-    colors: { seat: "#8B4513", back: "#8B4513", legs: "#C0C0C0", accent: "#2C2C2C" },
-    materials: { metallic: 0.8, roughness: 0.2, leather: true },
-  },
-  "chair-eames": {
-    name: "Eames Lounge",
-    colors: { seat: "#654321", back: "#654321", legs: "#2C2C2C", accent: "#8B4513" },
-    materials: { metallic: 0.3, roughness: 0.4, wood: true },
-  },
-  "chair-wingback": {
-    name: "Wingback Chair",
-    colors: { seat: "#1E3A8A", back: "#1E3A8A", legs: "#8B4513", accent: "#B5A642" },
-    materials: { metallic: 0.1, roughness: 0.8, fabric: true },
-  },
-
-  // Premium Tables
-  "table-conference": {
-    name: "Conference Table",
-    colors: { top: "#2C2C2C", legs: "#C0C0C0", accent: "#B5A642" },
-    materials: { metallic: 0.7, roughness: 0.1, glass: true },
-  },
-  "table-marble": {
-    name: "Marble Dining Table",
-    colors: { top: "#F8F8FF", legs: "#B5A642", accent: "#2C2C2C" },
-    materials: { metallic: 0.2, roughness: 0.05, marble: true },
-  },
-  "table-glass": {
-    name: "Glass Coffee Table",
-    colors: { top: "#F0F8FF", legs: "#C0C0C0", accent: "#2C2C2C" },
-    materials: { metallic: 0.9, roughness: 0.0, glass: true },
-  },
-  "table-industrial": {
-    name: "Industrial Desk",
-    colors: { top: "#8B4513", legs: "#2C2C2C", accent: "#654321" },
-    materials: { metallic: 0.6, roughness: 0.3, industrial: true },
-  },
-
-  // Premium Lighting
-  "lamp-crystal": {
-    name: "Crystal Chandelier",
-    colors: { frame: "#FFD700", crystals: "#F0F8FF", accent: "#B5A642" },
-    materials: { metallic: 0.9, roughness: 0.0, crystal: true },
-  },
-  "lamp-designer": {
-    name: "Designer Floor Lamp",
-    colors: { base: "#2C2C2C", pole: "#C0C0C0", shade: "#F5F5DC" },
-    materials: { metallic: 0.8, roughness: 0.2, premium: true },
-  },
-  "lamp-smart": {
-    name: "Smart Pendant Light",
-    colors: { shade: "#2C2C2C", cord: "#654321", accent: "#4169E1" },
-    materials: { metallic: 0.7, roughness: 0.1, tech: true },
-  },
-  "lamp-vintage": {
-    name: "Vintage Edison Lamp",
-    colors: { base: "#8B4513", pole: "#B5A642", shade: "#F5F5DC" },
-    materials: { metallic: 0.6, roughness: 0.4, vintage: true },
-  },
-
-  // Premium Plants
-  "plant-bonsai": {
-    name: "Bonsai Tree",
-    colors: { pot: "#2C2C2C", plant: "#228B22", accent: "#8B4513" },
-    materials: { metallic: 0.1, roughness: 0.9, ceramic: true },
-  },
-  "plant-olive": {
-    name: "Olive Tree",
-    colors: { pot: "#8B4513", plant: "#556B2F", accent: "#654321" },
-    materials: { metallic: 0.0, roughness: 0.8, natural: true },
-  },
-  "plant-bird": {
-    name: "Bird of Paradise",
-    colors: { pot: "#654321", plant: "#32CD32", accent: "#228B22" },
-    materials: { metallic: 0.0, roughness: 0.9, tropical: true },
-  },
-  "plant-monstera": {
-    name: "Monstera Deliciosa",
-    colors: { pot: "#2C2C2C", plant: "#228B22", accent: "#32CD32" },
-    materials: { metallic: 0.1, roughness: 0.8, modern: true },
-  },
-
-  // Premium Sofas
-  "sofa-chesterfield": {
-    name: "Chesterfield Sofa",
-    colors: { fabric: "#654321", legs: "#2C2C2C", accent: "#B5A642" },
-    materials: { metallic: 0.1, roughness: 0.6, leather: true },
-  },
-  "sofa-sectional": {
-    name: "Sectional Sofa",
-    colors: { fabric: "#4169E1", legs: "#C0C0C0", accent: "#2C2C2C" },
+  // Seating Variety
+  "chair-lounge": {
+    name: "Modern Lounge Chair",
+    colors: { seat: "#2C5F2D", back: "#2C5F2D", legs: "#D4AF37", accent: "#1C1C1C" },
     materials: { metallic: 0.2, roughness: 0.7, fabric: true },
   },
-  "sofa-mid-century": {
-    name: "Mid-Century Sofa",
-    colors: { fabric: "#8B4513", legs: "#654321", accent: "#DEB887" },
-    materials: { metallic: 0.3, roughness: 0.5, vintage: true },
+  "chair-bean-bag": {
+    name: "Bean Bag Chair",
+    colors: { seat: "#FF6B6B", back: "#FF6B6B", legs: "#FF6B6B", accent: "#C92A2A" },
+    materials: { metallic: 0.0, roughness: 0.9, fabric: true },
   },
-  "sofa-modular": {
-    name: "Modular Sofa System",
-    colors: { fabric: "#808080", legs: "#2C2C2C", accent: "#C0C0C0" },
-    materials: { metallic: 0.4, roughness: 0.4, modern: true },
+  "chair-rocking": {
+    name: "Rocking Chair",
+    colors: { seat: "#8B4513", back: "#A0522D", legs: "#654321", accent: "#DEB887" },
+    materials: { metallic: 0.1, roughness: 0.5, wood: true },
+  },
+  "chair-stool": {
+    name: "Office Stool",
+    colors: { seat: "#1C1C1C", back: "#1C1C1C", legs: "#C0C0C0", accent: "#4A90E2" },
+    materials: { metallic: 0.8, roughness: 0.2, modern: true },
   },
 
-  // Standard models (fallback)
+  // Table Variety
+  "table-round": {
+    name: "Round Dining Table",
+    colors: { top: "#654321", legs: "#2C2C2C", accent: "#8B4513" },
+    materials: { metallic: 0.3, roughness: 0.4, wood: true },
+  },
+  "table-console": {
+    name: "Console Table",
+    colors: { top: "#F5F5DC", legs: "#D4AF37", accent: "#8B7355" },
+    materials: { metallic: 0.5, roughness: 0.3, elegant: true },
+  },
+  "table-side": {
+    name: "Side Table",
+    colors: { top: "#2C2C2C", legs: "#FFD700", accent: "#1C1C1C" },
+    materials: { metallic: 0.7, roughness: 0.2, modern: true },
+  },
+  "table-bar": {
+    name: "Bar Table",
+    colors: { top: "#1C1C1C", legs: "#C0C0C0", accent: "#4A4A4A" },
+    materials: { metallic: 0.6, roughness: 0.1, industrial: true },
+  },
+
+  // Lighting Variety
+  "lamp-floor": {
+    name: "Arc Floor Lamp",
+    colors: { base: "#8B4513", pole: "#C0C0C0", shade: "#FFFFFF" },
+    materials: { metallic: 0.7, roughness: 0.2, modern: true },
+  },
+  "lamp-pendant": {
+    name: "Pendant Light",
+    colors: { shade: "#4A90E2", cord: "#2C2C2C", accent: "#1E3A8A" },
+    materials: { metallic: 0.4, roughness: 0.3, glass: true },
+  },
+  "lamp-wall": {
+    name: "Wall Sconce",
+    colors: { base: "#D4AF37", pole: "#8B7355", shade: "#F5F5DC" },
+    materials: { metallic: 0.8, roughness: 0.1, brass: true },
+  },
+  "lamp-desk": {
+    name: "Desk Lamp",
+    colors: { base: "#2C2C2C", pole: "#4A4A4A", shade: "#FFFFFF" },
+    materials: { metallic: 0.6, roughness: 0.2, minimalist: true },
+  },
+
+  // Decor Items
+  "decor-bookshelf": {
+    name: "Modern Bookshelf",
+    colors: { frame: "#654321", shelves: "#8B4513", accent: "#2C2C2C" },
+    materials: { metallic: 0.1, roughness: 0.6, wood: true },
+  },
+  "decor-mirror": {
+    name: "Wall Mirror",
+    colors: { frame: "#D4AF37", glass: "#E8F4F8", accent: "#8B7355" },
+    materials: { metallic: 0.9, roughness: 0.0, reflective: true },
+  },
+  "decor-rug": {
+    name: "Persian Rug",
+    colors: { base: "#8B0000", pattern: "#D4AF37", accent: "#2C2C2C" },
+    materials: { metallic: 0.0, roughness: 0.9, fabric: true },
+  },
+  "decor-art": {
+    name: "Wall Art",
+    colors: { frame: "#1C1C1C", canvas: "#4A90E2", accent: "#FFD700" },
+    materials: { metallic: 0.2, roughness: 0.7, modern: true },
+  },
+  "decor-sculpture": {
+    name: "Abstract Sculpture",
+    colors: { base: "#C0C0C0", accent: "#FFD700", detail: "#2C2C2C" },
+    materials: { metallic: 0.9, roughness: 0.1, metal: true },
+  },
+
+  // Plant Variety
+  "plant-cactus": {
+    name: "Desert Cactus",
+    colors: { pot: "#D2691E", plant: "#2E8B57", accent: "#8B4513" },
+    materials: { metallic: 0.0, roughness: 0.7, desert: true },
+  },
+  "plant-fiddle": {
+    name: "Fiddle Leaf Fig",
+    colors: { pot: "#F5F5DC", plant: "#228B22", accent: "#8B7355" },
+    materials: { metallic: 0.1, roughness: 0.8, tropical: true },
+  },
+  "plant-snake": {
+    name: "Snake Plant",
+    colors: { pot: "#2C2C2C", plant: "#3CB371", accent: "#1C1C1C" },
+    materials: { metallic: 0.2, roughness: 0.6, modern: true },
+  },
+  "plant-bamboo": {
+    name: "Bamboo Plant",
+    colors: { pot: "#654321", plant: "#6B8E23", accent: "#8B4513" },
+    materials: { metallic: 0.0, roughness: 0.8, zen: true },
+  },
+
+  // Storage Furniture
+  "storage-cabinet": {
+    name: "Storage Cabinet",
+    colors: { body: "#2C2C2C", doors: "#1C1C1C", accent: "#D4AF37" },
+    materials: { metallic: 0.4, roughness: 0.3, modern: true },
+  },
+  "storage-dresser": {
+    name: "Dresser",
+    colors: { body: "#8B4513", drawers: "#654321", accent: "#D4AF37" },
+    materials: { metallic: 0.2, roughness: 0.5, wood: true },
+  },
+  "storage-shelf": {
+    name: "Shelving Unit",
+    colors: { frame: "#C0C0C0", shelves: "#654321", accent: "#2C2C2C" },
+    materials: { metallic: 0.7, roughness: 0.2, industrial: true },
+  },
+  "storage-wardrobe": {
+    name: "Wardrobe",
+    colors: { body: "#F5F5DC", doors: "#DEB887", accent: "#8B7355" },
+    materials: { metallic: 0.1, roughness: 0.6, classic: true },
+  },
+
+  // Sofa Variety
+  "sofa-loveseat": {
+    name: "Loveseat",
+    colors: { fabric: "#8B008B", legs: "#2C2C2C", accent: "#D4AF37" },
+    materials: { metallic: 0.1, roughness: 0.7, velvet: true },
+  },
+  "sofa-chaise": {
+    name: "Chaise Lounge",
+    colors: { fabric: "#4682B4", legs: "#C0C0C0", accent: "#1C1C1C" },
+    materials: { metallic: 0.3, roughness: 0.5, modern: true },
+  },
+
+  // Fallback model
   "chair-dining": {
     name: "Dining Chair",
-    colors: { seat: "#DEB887", back: "#DEB887", legs: "#8B4513" },
+    colors: { seat: "#DEB887", back: "#DEB887", legs: "#8B4513", accent: "#654321" },
     materials: { metallic: 0.0, roughness: 0.6, wood: true },
   },
 }
@@ -159,6 +198,7 @@ export default function ARScene({ selectedModel, transform, onTransformChange }:
       const deltaY = (event.clientY - dragStart.y) / size.height
 
       if (event.shiftKey) {
+        // Rotation mode
         const newRotation = [
           initialTransform.rotation[0],
           initialTransform.rotation[1] + deltaX * Math.PI * 2,
@@ -166,18 +206,22 @@ export default function ARScene({ selectedModel, transform, onTransformChange }:
         ] as [number, number, number]
 
         onTransformChange({
-          ...initialTransform,
+          ...transform,
           rotation: newRotation,
         })
       } else {
+        // Position mode with boundary constraints
+        const newX = Math.max(-5, Math.min(5, initialTransform.position[0] + deltaX * 5))
+        const newY = Math.max(-2, Math.min(3, initialTransform.position[1] - deltaY * 3))
+        
         const newPosition = [
-          initialTransform.position[0] + deltaX * 5,
-          initialTransform.position[1] - deltaY * 3,
+          newX,
+          newY,
           initialTransform.position[2],
         ] as [number, number, number]
 
         onTransformChange({
-          ...initialTransform,
+          ...transform,
           position: newPosition,
         })
       }
@@ -225,17 +269,12 @@ export default function ARScene({ selectedModel, transform, onTransformChange }:
     transform,
   ])
 
-  useFrame((state) => {
+  useFrame(() => {
     if (meshRef.current && selectedModel) {
-      // Apply transform smoothly
-      meshRef.current.position.lerp(new THREE.Vector3(...transform.position), 0.1)
+      // Apply transform directly without lerp to fix positioning bugs
+      meshRef.current.position.set(...transform.position)
       meshRef.current.rotation.set(...transform.rotation)
-      meshRef.current.scale.lerp(new THREE.Vector3(...transform.scale), 0.1)
-
-      // Subtle floating animation for premium feel
-      const time = state.clock.getElapsedTime()
-      const baseY = transform.position[1]
-      meshRef.current.position.y = baseY + Math.sin(time * 1.5) * 0.005
+      meshRef.current.scale.set(...transform.scale)
     }
   })
 
@@ -428,13 +467,210 @@ export default function ARScene({ selectedModel, transform, onTransformChange }:
 
   const config = getModelConfig(selectedModel)
 
+  const renderDecorItem = (config: any) => {
+    const modelType = selectedModel?.split("-")[1]
+    
+    if (modelType === "bookshelf") {
+      return (
+        <group ref={meshRef}>
+          {/* Bookshelf frame */}
+          <Box args={[1.5, 2, 0.4]} position={[0, 1, 0]}>
+            <meshStandardMaterial {...createMaterial(config.colors.frame, config)} />
+          </Box>
+          {/* Shelves */}
+          {[0.3, 0.9, 1.5].map((y, i) => (
+            <Box key={i} args={[1.4, 0.05, 0.38]} position={[0, y, 0]}>
+              <meshStandardMaterial {...createMaterial(config.colors.shelves, config)} />
+            </Box>
+          ))}
+          <Text position={[0, 2.3, 0]} fontSize={0.12} color="white" anchorX="center" anchorY="middle">
+            {config.name}
+          </Text>
+        </group>
+      )
+    } else if (modelType === "mirror") {
+      return (
+        <group ref={meshRef}>
+          {/* Mirror frame */}
+          <Box args={[1.2, 1.8, 0.1]} position={[0, 1, 0]}>
+            <meshStandardMaterial {...createMaterial(config.colors.frame, config)} />
+          </Box>
+          {/* Reflective surface */}
+          <Box args={[1, 1.6, 0.05]} position={[0, 1, 0.06]}>
+            <meshStandardMaterial {...createMaterial(config.colors.glass, config)} />
+          </Box>
+          <Text position={[0, 2.2, 0]} fontSize={0.12} color="white" anchorX="center" anchorY="middle">
+            {config.name}
+          </Text>
+        </group>
+      )
+    } else if (modelType === "rug") {
+      return (
+        <group ref={meshRef}>
+          {/* Rug base */}
+          <Box args={[2.5, 0.05, 1.8]} position={[0, 0.025, 0]}>
+            <meshStandardMaterial {...createMaterial(config.colors.base, config)} />
+          </Box>
+          {/* Pattern details */}
+          <Box args={[2.2, 0.06, 1.5]} position={[0, 0.06, 0]}>
+            <meshStandardMaterial {...createMaterial(config.colors.pattern, config)} />
+          </Box>
+          <Text position={[0, 0.3, 0]} fontSize={0.12} color="white" anchorX="center" anchorY="middle">
+            {config.name}
+          </Text>
+        </group>
+      )
+    } else if (modelType === "art") {
+      return (
+        <group ref={meshRef}>
+          {/* Frame */}
+          <Box args={[1.2, 1.5, 0.08]} position={[0, 1, 0]}>
+            <meshStandardMaterial {...createMaterial(config.colors.frame, config)} />
+          </Box>
+          {/* Canvas */}
+          <Box args={[1, 1.3, 0.05]} position={[0, 1, 0.07]}>
+            <meshStandardMaterial {...createMaterial(config.colors.canvas, config)} />
+          </Box>
+          <Text position={[0, 2, 0]} fontSize={0.12} color="white" anchorX="center" anchorY="middle">
+            {config.name}
+          </Text>
+        </group>
+      )
+    } else if (modelType === "sculpture") {
+      return (
+        <group ref={meshRef}>
+          {/* Abstract sculpture */}
+          <Sphere args={[0.4]} position={[0, 0.6, 0]}>
+            <meshStandardMaterial {...createMaterial(config.colors.base, config)} />
+          </Sphere>
+          <Box args={[0.3, 0.8, 0.3]} position={[0, 1.2, 0]}>
+            <meshStandardMaterial {...createMaterial(config.colors.accent, config)} />
+          </Box>
+          <Cone args={[0.25, 0.5]} position={[0, 1.8, 0]}>
+            <meshStandardMaterial {...createMaterial(config.colors.detail, config)} />
+          </Cone>
+          <Text position={[0, 2.3, 0]} fontSize={0.12} color="white" anchorX="center" anchorY="middle">
+            {config.name}
+          </Text>
+        </group>
+      )
+    }
+    return null
+  }
+
+  const renderStorageFurniture = (config: any) => {
+    const modelType = selectedModel?.split("-")[1]
+    
+    if (modelType === "cabinet") {
+      return (
+        <group ref={meshRef}>
+          {/* Cabinet body */}
+          <Box args={[1.5, 1.2, 0.6]} position={[0, 0.6, 0]}>
+            <meshStandardMaterial {...createMaterial(config.colors.body, config)} />
+          </Box>
+          {/* Doors */}
+          <Box args={[0.72, 1.1, 0.05]} position={[-0.36, 0.6, 0.33]}>
+            <meshStandardMaterial {...createMaterial(config.colors.doors, config)} />
+          </Box>
+          <Box args={[0.72, 1.1, 0.05]} position={[0.36, 0.6, 0.33]}>
+            <meshStandardMaterial {...createMaterial(config.colors.doors, config)} />
+          </Box>
+          {/* Handles */}
+          <Cylinder args={[0.02, 0.02, 0.08]} rotation={[0, 0, Math.PI / 2]} position={[-0.5, 0.6, 0.38]}>
+            <meshStandardMaterial {...createMaterial(config.colors.accent, config)} />
+          </Cylinder>
+          <Cylinder args={[0.02, 0.02, 0.08]} rotation={[0, 0, Math.PI / 2]} position={[0.5, 0.6, 0.38]}>
+            <meshStandardMaterial {...createMaterial(config.colors.accent, config)} />
+          </Cylinder>
+          <Text position={[0, 1.5, 0]} fontSize={0.12} color="white" anchorX="center" anchorY="middle">
+            {config.name}
+          </Text>
+        </group>
+      )
+    } else if (modelType === "dresser") {
+      return (
+        <group ref={meshRef}>
+          {/* Dresser body */}
+          <Box args={[1.8, 1, 0.6]} position={[0, 0.5, 0]}>
+            <meshStandardMaterial {...createMaterial(config.colors.body, config)} />
+          </Box>
+          {/* Drawers */}
+          {[0.25, 0.5, 0.75].map((y, i) => (
+            <Box key={i} args={[1.7, 0.22, 0.05]} position={[0, y, 0.33]}>
+              <meshStandardMaterial {...createMaterial(config.colors.drawers, config)} />
+            </Box>
+          ))}
+          {/* Handles */}
+          {[0.25, 0.5, 0.75].map((y, i) => (
+            <Cylinder key={i} args={[0.02, 0.02, 0.1]} rotation={[0, 0, Math.PI / 2]} position={[0, y, 0.38]}>
+              <meshStandardMaterial {...createMaterial(config.colors.accent, config)} />
+            </Cylinder>
+          ))}
+          <Text position={[0, 1.3, 0]} fontSize={0.12} color="white" anchorX="center" anchorY="middle">
+            {config.name}
+          </Text>
+        </group>
+      )
+    } else if (modelType === "shelf") {
+      return (
+        <group ref={meshRef}>
+          {/* Frame */}
+          <Box args={[0.1, 2, 0.4]} position={[-0.7, 1, 0]}>
+            <meshStandardMaterial {...createMaterial(config.colors.frame, config)} />
+          </Box>
+          <Box args={[0.1, 2, 0.4]} position={[0.7, 1, 0]}>
+            <meshStandardMaterial {...createMaterial(config.colors.frame, config)} />
+          </Box>
+          {/* Shelves */}
+          {[0.4, 0.9, 1.4, 1.9].map((y, i) => (
+            <Box key={i} args={[1.5, 0.05, 0.4]} position={[0, y, 0]}>
+              <meshStandardMaterial {...createMaterial(config.colors.shelves, config)} />
+            </Box>
+          ))}
+          <Text position={[0, 2.3, 0]} fontSize={0.12} color="white" anchorX="center" anchorY="middle">
+            {config.name}
+          </Text>
+        </group>
+      )
+    } else if (modelType === "wardrobe") {
+      return (
+        <group ref={meshRef}>
+          {/* Wardrobe body */}
+          <Box args={[2, 2.2, 0.7]} position={[0, 1.1, 0]}>
+            <meshStandardMaterial {...createMaterial(config.colors.body, config)} />
+          </Box>
+          {/* Doors */}
+          <Box args={[0.95, 2.1, 0.05]} position={[-0.48, 1.1, 0.38]}>
+            <meshStandardMaterial {...createMaterial(config.colors.doors, config)} />
+          </Box>
+          <Box args={[0.95, 2.1, 0.05]} position={[0.48, 1.1, 0.38]}>
+            <meshStandardMaterial {...createMaterial(config.colors.doors, config)} />
+          </Box>
+          {/* Handles */}
+          <Cylinder args={[0.03, 0.03, 0.1]} rotation={[0, 0, Math.PI / 2]} position={[-0.7, 1.1, 0.43]}>
+            <meshStandardMaterial {...createMaterial(config.colors.accent, config)} />
+          </Cylinder>
+          <Cylinder args={[0.03, 0.03, 0.1]} rotation={[0, 0, Math.PI / 2]} position={[0.7, 1.1, 0.43]}>
+            <meshStandardMaterial {...createMaterial(config.colors.accent, config)} />
+          </Cylinder>
+          <Text position={[0, 2.5, 0]} fontSize={0.12} color="white" anchorX="center" anchorY="middle">
+            {config.name}
+          </Text>
+        </group>
+      )
+    }
+    return null
+  }
+
   const renderModel = () => {
-    // Premium models get enhanced rendering
+    // Render different model types
     if (selectedModel.includes("chair-")) return renderPremiumChair(config)
     if (selectedModel.includes("table-")) return renderPremiumTable(config)
     if (selectedModel.includes("lamp-")) return renderPremiumLamp(config)
     if (selectedModel.includes("plant-")) return renderPremiumPlant(config)
     if (selectedModel.includes("sofa-")) return renderPremiumSofa(config)
+    if (selectedModel.includes("decor-")) return renderDecorItem(config)
+    if (selectedModel.includes("storage-")) return renderStorageFurniture(config)
     return renderPremiumChair(config) // fallback
   }
 
